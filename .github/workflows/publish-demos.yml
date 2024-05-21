@@ -1,0 +1,45 @@
+name: publish-demos
+on:
+  push:
+    tags:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v3
+      - name: JDK setup
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: temurin
+      - name: Gradle setup
+        uses: gradle/gradle-build-action@3b1b3b9a2104c2b47fbae53f3938079c00c9bb87
+      - name: Generate sample
+        run: ./gradlew sample --args="default"
+      - name: Save gdx-liftoff version
+        run: echo "LIFTOFF_VERSION=$(cat version.txt)" >> $GITHUB_ENV
+      - name: Publish default sample
+        uses: JamesIves/github-pages-deploy-action@ec9c88baef04b842ca6f0a132fd61c762aa6c1b0
+        with:
+          token: ${{ secrets.DEMO_PUSH }}
+          branch: main
+          folder: build/dist/sample
+          repository-name: libgdx/gdx-liftoff-demo
+          commit-message: 'Automatic deployment: gdx-liftoff ${{ env.LIFTOFF_VERSION }}.'
+      - name: Clean basic sample
+        run: rm -rf build/dist/sample
+      - name: Generate Kotlin sample
+        run: ./gradlew sample --args="kotlin"
+      - name: Publish Kotlin sample
+        uses: JamesIves/github-pages-deploy-action@ec9c88baef04b842ca6f0a132fd61c762aa6c1b0
+        with:
+          token: ${{ secrets.DEMO_PUSH }}
+          branch: main
+          folder: build/dist/sample
+          repository-name: libgdx/gdx-liftoff-demo-kotlin
+          commit-message: 'Automatic deployment: gdx-liftoff ${{ env.LIFTOFF_VERSION }}.'
