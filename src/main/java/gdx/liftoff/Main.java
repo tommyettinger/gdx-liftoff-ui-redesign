@@ -25,6 +25,11 @@ import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.czyzby.autumn.annotation.Inject;
+import com.github.czyzby.autumn.context.ContextInitializer;
+import com.github.czyzby.autumn.fcs.scanner.DesktopClassScanner;
+import com.github.czyzby.autumn.mvc.application.AutumnApplication;
+import com.github.czyzby.autumn.nongwt.scanner.FallbackDesktopClassScanner;
+import com.kotcrab.vis.ui.util.OsUtils;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooser.SelectionMode;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
@@ -43,6 +48,7 @@ import org.lwjgl.PointerBuffer;
 import org.lwjgl.util.nfd.NativeFileDialog;
 
 import java.io.IOException;
+import java.lang.StringBuilder;
 import java.util.*;
 import java.util.Collections;
 import java.util.List;
@@ -89,6 +95,13 @@ public class Main extends ApplicationAdapter {
     private static final LanguagesView languagesView = gdx.liftoff.config.AutumnKt.inject();
     private static final TemplatesView templatesView = gdx.liftoff.config.AutumnKt.inject();
 
+    private static String exceptionToString(Throwable ex) {
+        StringBuilder sb = new StringBuilder();
+        for(StackTraceElement ste : ex.getStackTrace()){
+            sb.append(ste.toString()).append('\n');
+        }
+        return sb.toString();
+    }
     public static void main(String[] args) {
 		if (StartupHelper.startNewJvmIfRequired(true)) return; // This handles macOS support and helps on Windows.
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -143,7 +156,48 @@ public class Main extends ApplicationAdapter {
             }
         };
         config.setWindowListener(windowListener);
-        new Lwjgl3Application(new Main(), config);
+//        new Lwjgl3Application(new Main(), config);
+
+        try {
+            new Lwjgl3Application(new AutumnApplication(new DesktopClassScanner(), Root.class){
+                protected void registerDefaultComponentAnnotations(ContextInitializer initializer) {
+                    super.registerDefaultComponentAnnotations(initializer);
+                    // Classes with these annotations will be automatically scanned for and initiated as singletons:
+                    initializer.scanFor(
+                        Extension.class,
+                        ProjectTemplate.class,
+                        JvmLanguage.class,
+                        GdxPlatform.class);
+                }
+            },
+                config
+            );
+        } catch (ExceptionInInitializerError error) {
+            if (OsUtils.isMac() && error.getCause() instanceof IllegalStateException) {
+                if (exceptionToString(error).contains("XstartOnFirstThread")) {
+                    System.out.println(
+                        "Application was not launched on first thread. " +
+                            "Add VM argument -XstartOnFirstThread to avoid this."
+                    );
+                }
+            }
+            throw error;
+        } catch (GdxRuntimeException error) {
+            new Lwjgl3Application(new AutumnApplication(new FallbackDesktopClassScanner(), Root.class){
+                protected void registerDefaultComponentAnnotations(ContextInitializer initializer) {
+                    super.registerDefaultComponentAnnotations(initializer);
+                    // Classes with these annotations will be automatically scanned for and initiated as singletons:
+                    initializer.scanFor(
+                        Extension.class,
+                        ProjectTemplate.class,
+                        JvmLanguage.class,
+                        GdxPlatform.class);
+                }
+            },
+                config
+            );
+        }
+
     }
 
     @Override
