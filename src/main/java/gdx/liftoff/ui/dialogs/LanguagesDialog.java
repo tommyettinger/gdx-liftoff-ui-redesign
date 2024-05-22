@@ -137,7 +137,7 @@ public class LanguagesDialog extends PopTable  {
     private void addLanguage(Table table, String languageName, String defaultVersion) {
         table.row();
         CheckBox checkBox = new CheckBox(prop.getProperty(languageName), skin);
-        checkBox.setChecked(UserData.languages.contains(languageName, false));
+        checkBox.setChecked(UserData.languages.contains(languageName));
         table.add(checkBox);
         addHandListener(checkBox);
 
@@ -154,7 +154,7 @@ public class LanguagesDialog extends PopTable  {
                 UserData.languages.add(languageName);
                 UserData.languageVersions.put(languageName, textField.getText());
             }
-            else UserData.languages.removeValue(languageName, false);
+            else UserData.languages.remove(languageName);
         });
 
         onChange(textField, () -> {

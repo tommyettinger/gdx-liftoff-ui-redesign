@@ -59,7 +59,7 @@ public class PathsPanel extends Table implements Panel {
             });
         });
 
-        if (UserData.platforms.contains(prop.getProperty("android"), false)) {
+        if (UserData.platforms.contains(prop.getProperty("android"))) {
             //android label
             row();
             label = new Label(prop.getProperty("androidSdkPrompt"), skin, "field");
@@ -120,7 +120,7 @@ public class PathsPanel extends Table implements Panel {
             return;
         }
 
-        boolean android = UserData.platforms.contains(prop.getProperty("android"), false);
+        boolean android = UserData.platforms.contains(prop.getProperty("android"));
         if (android && (UserData.androidPath == null || UserData.androidPath.isEmpty())) {
             errorLabel.setText(prop.getProperty("sdkNullDirectory"));
             return;

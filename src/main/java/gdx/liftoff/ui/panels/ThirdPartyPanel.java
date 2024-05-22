@@ -245,7 +245,7 @@ public class ThirdPartyPanel extends Table implements Panel {
             //entry checkbox
             scrollTable.row();
             CheckBox checkBox = new CheckBox(searchEntry.name, skin);
-            checkBox.setChecked(UserData.thirdPartyLibs.contains(searchEntry.name, false));
+            checkBox.setChecked(UserData.thirdPartyLibs.contains(searchEntry.name));
             checkBox.getLabel().setWrap(true);
             checkBox.getLabelCell().growX().maxWidth(200);
             scrollTable.add(checkBox).left().growX();

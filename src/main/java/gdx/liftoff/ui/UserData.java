@@ -1,18 +1,18 @@
 package gdx.liftoff.ui;
 
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.OrderedMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class UserData {
     public static String projectName;
     public static String packageName;
     public static String mainClassName;
-    public static Array<String> platforms;
-    public static Array<String> languages;
-    public static OrderedMap<String, String> languageVersions;
-    public static Array<String> extensions;
+    public static ArrayList<String> platforms;
+    public static ArrayList<String> languages;
+    public static LinkedHashMap<String, String> languageVersions;
+    public static ArrayList<String> extensions;
     public static String template;
-    public static Array<String> thirdPartyLibs;
+    public static ArrayList<String> thirdPartyLibs;
     public static String libgdxVersion;
     public static String javaVersion;
     public static String appVersion;
@@ -24,8 +24,8 @@ public class UserData {
     public static String androidPath;
     public static String log;
 
-    public static Array<String> getLanguages() {
-        Array<String> returnValue = new Array<>();
+    public static ArrayList<String> getLanguages() {
+        ArrayList<String> returnValue = new ArrayList<>();
         for (String language : languages) {
             returnValue.add(language + " " + languageVersions.get(language));
         }

@@ -131,13 +131,13 @@ public class PlatformsDialog extends PopTable  {
     private CheckBox addPlatform(Table table, String platformName, String description) {
         table.row();
         CheckBox checkBox = new CheckBox(platformName, skin);
-        checkBox.setChecked(UserData.platforms.contains(platformName, false));
+        checkBox.setChecked(UserData.platforms.contains(platformName));
         checkBox.left();
         table.add(checkBox).growX();
         addHandListener(checkBox);
         onChange(checkBox, () -> {
-            if (checkBox.isChecked() && !UserData.platforms.contains(platformName, false)) UserData.platforms.add(platformName);
-            else UserData.platforms.removeValue(platformName, false);
+            if (checkBox.isChecked() && !UserData.platforms.contains(platformName)) UserData.platforms.add(platformName);
+            else UserData.platforms.remove(platformName);
         });
 
         Label label = new Label(description, skin, "description");

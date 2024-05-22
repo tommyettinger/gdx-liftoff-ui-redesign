@@ -136,12 +136,12 @@ public class ExtensionsDialog extends PopTable  {
         //checkbox
         table.row();
         CheckBox checkBox = new CheckBox(extensionName, skin);
-        checkBox.setChecked(UserData.extensions.contains(extensionName, false));
+        checkBox.setChecked(UserData.extensions.contains(extensionName));
         table.add(checkBox);
         addHandListener(checkBox);
         onChange(checkBox, () -> {
-            if (checkBox.isChecked() && !UserData.extensions.contains(extensionName, false)) UserData.extensions.add(extensionName);
-            else UserData.extensions.removeValue(extensionName, false);
+            if (checkBox.isChecked() && !UserData.extensions.contains(extensionName)) UserData.extensions.add(extensionName);
+            else UserData.extensions.remove(extensionName);
         });
 
         Table subTable = new Table();
