@@ -126,7 +126,7 @@ public class ExtensionsDialog extends PopTable  {
     }
 
     /**
-     * Convenience method that adds an extension to the given table
+     * Convenience method that adds an extension to the given table.
      * @param table The table to add widgets to
      * @param extensionName The name of the extension
      * @param description A short description of the extension

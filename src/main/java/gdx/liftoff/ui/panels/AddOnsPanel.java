@@ -12,6 +12,7 @@ import gdx.liftoff.ui.UserData;
 import gdx.liftoff.ui.dialogs.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
 
 import static gdx.liftoff.Main.*;
@@ -172,7 +173,7 @@ public class AddOnsPanel extends Table implements Panel {
      * @param table
      * @param names
      */
-    private void createButtons(Table table, ArrayList<String> names, boolean capitalize) {
+    private void createButtons(Table table, Collection<String> names, boolean capitalize) {
         table.clearChildren();
         table.top();
 

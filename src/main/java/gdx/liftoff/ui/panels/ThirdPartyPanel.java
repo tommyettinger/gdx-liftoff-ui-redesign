@@ -210,7 +210,7 @@ public class ThirdPartyPanel extends Table implements Panel {
     }
 
     private SearchEntry addThirdParty(String name) {
-        return addThirdParty(prop.getProperty(name), prop.getProperty(name + "Tip"), prop.getProperty(name + "Url"),  prop.getProperty(name + "Terms"));
+        return addThirdParty(name, prop.getProperty(name), prop.getProperty(name + "Tip"), prop.getProperty(name + "Url"),  prop.getProperty(name + "Terms"));
     }
 
     /**
@@ -218,12 +218,12 @@ public class ThirdPartyPanel extends Table implements Panel {
      * @param name The name of the library
      * @param description A short description of the library
      * @param link The URL pointing to the library's home page
-     * @param keywords Search terms to be implemented in the search TextField. The library name is already included with
-     *                 the keywords.
+     * @param keywords Search terms to be implemented in the search TextField; the library name is already included with
+     *                 the keywords
      * @return The data object containing the details of the third-party library
      */
-    private SearchEntry addThirdParty(String name, String description, String link, String keywords) {
-        SearchEntry searchEntry = new SearchEntry(name, description, link, keywords);
+    private SearchEntry addThirdParty(String id, String name, String description, String link, String keywords) {
+        SearchEntry searchEntry = new SearchEntry(id, name, description, link, keywords);
         searchEntries.add(searchEntry);
         return searchEntry;
     }
@@ -238,14 +238,14 @@ public class ThirdPartyPanel extends Table implements Panel {
         scrollTable.clearChildren();
 
         for (SearchEntry searchEntry : searchEntries) {
-            if (search != null && !search.equals("") &&
+            if (search != null && !search.isEmpty() &&
                 !searchEntry.name.toLowerCase(Locale.ROOT).contains(search) &&
                 !searchEntry.keywords.toLowerCase(Locale.ROOT).contains(search)) continue;
 
             //entry checkbox
             scrollTable.row();
             CheckBox checkBox = new CheckBox(searchEntry.name, skin);
-            checkBox.setChecked(UserData.thirdPartyLibs.contains(searchEntry.name));
+            checkBox.setChecked(UserData.thirdPartyLibs.contains(searchEntry.id));
             checkBox.getLabel().setWrap(true);
             checkBox.getLabelCell().growX().maxWidth(200);
             scrollTable.add(checkBox).left().growX();
@@ -272,13 +272,15 @@ public class ThirdPartyPanel extends Table implements Panel {
     /**
      * A data class to store the information for a third-party library
      */
-    private class SearchEntry {
+    private static class SearchEntry {
+        String id;
         String name;
         String description;
         String link;
         String keywords;
 
-        public SearchEntry(String name, String description, String link, String keywords) {
+        public SearchEntry(String id, String name, String description, String link, String keywords) {
+            this.id = id;
             this.name = name;
             this.description = description;
             this.link = link;
