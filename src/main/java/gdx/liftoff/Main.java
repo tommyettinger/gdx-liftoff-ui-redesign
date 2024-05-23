@@ -156,48 +156,47 @@ public class Main extends ApplicationAdapter {
             }
         };
         config.setWindowListener(windowListener);
-//        new Lwjgl3Application(new Main(), config);
+        new Lwjgl3Application(new Main(), config);
 
-        try {
-            new Lwjgl3Application(new AutumnApplication(new DesktopClassScanner(), Root.class){
-                protected void registerDefaultComponentAnnotations(ContextInitializer initializer) {
-                    super.registerDefaultComponentAnnotations(initializer);
-                    // Classes with these annotations will be automatically scanned for and initiated as singletons:
-                    initializer.scanFor(
-                        Extension.class,
-                        ProjectTemplate.class,
-                        JvmLanguage.class,
-                        GdxPlatform.class);
-                }
-            },
-                config
-            );
-        } catch (ExceptionInInitializerError error) {
-            if (OsUtils.isMac() && error.getCause() instanceof IllegalStateException) {
-                if (exceptionToString(error).contains("XstartOnFirstThread")) {
-                    System.out.println(
-                        "Application was not launched on first thread. " +
-                            "Add VM argument -XstartOnFirstThread to avoid this."
-                    );
-                }
-            }
-            throw error;
-        } catch (GdxRuntimeException error) {
-            new Lwjgl3Application(new AutumnApplication(new FallbackDesktopClassScanner(), Root.class){
-                protected void registerDefaultComponentAnnotations(ContextInitializer initializer) {
-                    super.registerDefaultComponentAnnotations(initializer);
-                    // Classes with these annotations will be automatically scanned for and initiated as singletons:
-                    initializer.scanFor(
-                        Extension.class,
-                        ProjectTemplate.class,
-                        JvmLanguage.class,
-                        GdxPlatform.class);
-                }
-            },
-                config
-            );
-        }
-
+//        try {
+//            new Lwjgl3Application(new AutumnApplication(new DesktopClassScanner(), Root.class){
+//                protected void registerDefaultComponentAnnotations(ContextInitializer initializer) {
+//                    super.registerDefaultComponentAnnotations(initializer);
+//                    // Classes with these annotations will be automatically scanned for and initiated as singletons:
+//                    initializer.scanFor(
+//                        Extension.class,
+//                        ProjectTemplate.class,
+//                        JvmLanguage.class,
+//                        GdxPlatform.class);
+//                }
+//            },
+//                config
+//            );
+//        } catch (ExceptionInInitializerError error) {
+//            if (OsUtils.isMac() && error.getCause() instanceof IllegalStateException) {
+//                if (exceptionToString(error).contains("XstartOnFirstThread")) {
+//                    System.out.println(
+//                        "Application was not launched on first thread. " +
+//                            "Add VM argument -XstartOnFirstThread to avoid this."
+//                    );
+//                }
+//            }
+//            throw error;
+//        } catch (GdxRuntimeException error) {
+//            new Lwjgl3Application(new AutumnApplication(new FallbackDesktopClassScanner(), Root.class){
+//                protected void registerDefaultComponentAnnotations(ContextInitializer initializer) {
+//                    super.registerDefaultComponentAnnotations(initializer);
+//                    // Classes with these annotations will be automatically scanned for and initiated as singletons:
+//                    initializer.scanFor(
+//                        Extension.class,
+//                        ProjectTemplate.class,
+//                        JvmLanguage.class,
+//                        GdxPlatform.class);
+//                }
+//            },
+//                config
+//            );
+//        }
     }
 
     @Override
