@@ -54,6 +54,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static gdx.liftoff.ui.UserData.*;
+import static gdx.liftoff.ui.dialogs.FullscreenDialog.fullscreenDialog;
 import static org.lwjgl.system.MemoryUtil.memAllocPointer;
 import static org.lwjgl.system.MemoryUtil.memFree;
 
@@ -126,8 +127,15 @@ public class Main extends ApplicationAdapter {
             }
 
             @Override
-            public void maximized(boolean b) {
-
+            public void maximized(boolean isMax) {
+                if(!isMax){
+                    if(fullscreenDialog != null)
+                        fullscreenDialog.hide();
+                    if(root != null)
+                        root.fadeInTable();
+                    if(overlayTable != null)
+                        overlayTable.fadeIn();
+                }
             }
 
             @Override
