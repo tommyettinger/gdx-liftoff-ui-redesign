@@ -11,6 +11,7 @@ import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 import gdx.liftoff.Main;
 import gdx.liftoff.ui.UserData;
 import gdx.liftoff.ui.dialogs.FullscreenDialog;
+import gdx.liftoff.ui.liftofftables.SettingsTable;
 
 import static gdx.liftoff.Main.*;
 
@@ -53,6 +54,7 @@ public class PathsPanel extends Table implements Panel {
                         UserData.projectPath = path;
                         updateError();
                         if (FullscreenDialog.fullscreenDialog != null) FullscreenDialog.fullscreenDialog.updateGenerateButton();
+                        if (root.settingsTable != null) root.settingsTable.updateGenerateButton();
                         root.quickSettingsTable.populate();
                     }
                 }
@@ -138,6 +140,10 @@ public class PathsPanel extends Table implements Panel {
         }
 
         errorLabel.setText("");
+    }
+
+    public boolean hasError() {
+        return errorLabel.getText().notEmpty();
     }
 
     /**
