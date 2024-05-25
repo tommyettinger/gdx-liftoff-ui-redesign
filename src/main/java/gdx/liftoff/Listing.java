@@ -60,6 +60,15 @@ public final class Listing {
         }
     }
 
+    public static ArrayList<Language> chooseLanguages(Collection<String> names) {
+        ArrayList<Language> cpy = new ArrayList<>(languages.size());
+        for(Language l : languages){
+            if(names.contains(l.getId()))
+                cpy.add(l);
+        }
+        return cpy;
+    }
+
     public static final ArrayList<Library> officialLibraries = makeList(
         new AI(),
         new Ashley(),

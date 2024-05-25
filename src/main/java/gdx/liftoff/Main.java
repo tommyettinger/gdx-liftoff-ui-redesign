@@ -601,10 +601,9 @@ public class Main extends ApplicationAdapter {
 
         LinkedHashMap<String, Platform> platforms = new LinkedHashMap<>(UserData.platforms.size());
         for(String p : UserData.platforms){
-//            String platform = p.toLowerCase(Locale.ROOT);
             platforms.put(p, Listing.platformsByName.get(p));
         }
-        LanguagesData languagesData = new LanguagesData(Listing.languages, Listing.languageVersions);
+        LanguagesData languagesData = new LanguagesData(Listing.chooseLanguages(languages), UserData.languageVersions);
         ExtensionsData extensionsData = new ExtensionsData(Listing.chooseOfficialLibraries(extensions),
             Listing.chooseOfficialLibraries(thirdPartyLibs));
 
