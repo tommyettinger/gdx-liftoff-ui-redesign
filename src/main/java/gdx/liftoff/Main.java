@@ -77,7 +77,7 @@ public class Main extends ApplicationAdapter {
     public static boolean resizingWindow;
     public static Properties prop;
     public static Preferences pref;
-    private static GlyphLayout layout = new GlyphLayout();
+    private static final GlyphLayout layout = new GlyphLayout();
     public static final int MIN_WINDOW_WIDTH = 400;
     public static final int MIN_WINDOW_HEIGHT = 410;
     public static final float ROOT_TABLE_PREF_WIDTH = 600;
@@ -92,7 +92,6 @@ public class Main extends ApplicationAdapter {
 
     @Inject
     private static final MainView mainView = gdx.liftoff.config.AutumnKt.inject();
-    private static final PlatformsView platformView = gdx.liftoff.config.AutumnKt.inject();
     private static final LanguagesView languagesView = gdx.liftoff.config.AutumnKt.inject();
     private static final TemplatesView templatesView = gdx.liftoff.config.AutumnKt.inject();
 
@@ -611,7 +610,7 @@ public class Main extends ApplicationAdapter {
 
         LinkedHashMap<String, Platform> platforms = new LinkedHashMap<>(UserData.platforms.size());
         for(String platform : UserData.platforms){
-            platforms.put(platform, platformView.get(platform));
+            platforms.put(platform, Listing.platformsByName.get(platform));
         }
         LanguagesData languagesData = new LanguagesData(languagesView.getLanguageObjects(), languagesView.getLanguageVersionMap());
         ExtensionsData extensions = new ExtensionsData(mainView.getOfficialExtensionsByName(UserData.extensions),
@@ -619,14 +618,6 @@ public class Main extends ApplicationAdapter {
 
         Project project = new Project(basicData, platforms, advancedData, languagesData, extensions,
             templatesView.getTemplateByName(template));
-        //  val project = Project(
-        //    basic = basicData,
-        //    advanced = advancedData,
-        //    platforms = preset.platforms.associateBy { it.id },
-        //    languages = preset.languagesData,
-        //    extensions = extensions,
-        //    template = preset.template
-        //  )
           project.generate();
           project.includeGradleWrapper(new ProjectLogger() {
               @Override
@@ -636,7 +627,7 @@ public class Main extends ApplicationAdapter {
 
               @Override
               public void logNls(@NotNull String bundleLine) {
-                  System.out.println(bundleLine); // TODO: I have no idea what to do here.
+                  System.out.println(prop.getProperty(bundleLine, "???"));
               }
           }, false);
     }
