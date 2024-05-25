@@ -610,7 +610,7 @@ public class Main extends ApplicationAdapter {
             Listing.chooseOfficialLibraries(thirdPartyLibs));
 
         Project project = new Project(basicData, platforms, advancedData, languagesData, extensionsData,
-            templatesView.getTemplateByName(template));
+            Listing.templatesByName.getOrDefault(template, Listing.templates.get(0)));
           project.generate();
           project.includeGradleWrapper(new ProjectLogger() {
               @Override

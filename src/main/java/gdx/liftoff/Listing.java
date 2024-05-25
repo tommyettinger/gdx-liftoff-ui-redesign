@@ -8,6 +8,9 @@ import gdx.liftoff.data.libraries.Library;
 import gdx.liftoff.data.libraries.official.*;
 import gdx.liftoff.data.libraries.unofficial.*;
 import gdx.liftoff.data.platforms.*;
+import gdx.liftoff.data.templates.Template;
+import gdx.liftoff.data.templates.official.*;
+import gdx.liftoff.data.templates.unofficial.*;
 import gdx.liftoff.ui.UserData;
 
 import java.util.ArrayList;
@@ -225,5 +228,36 @@ public final class Listing {
         LinkedHashMap<String, Library> cpy = new LinkedHashMap<>(unofficialByName);
         cpy.keySet().retainAll(names);
         return new ArrayList<>(cpy.values());
+    }
+
+    public static final ArrayList<Template> templates = makeList(
+        new ClassicTemplate(),
+        new ApplicationAdapterTemplate(),
+        new ApplicationListenerTemplate(),
+        new EmptyTemplate(),
+        new GameTemplate(),
+        new InputProcessorTemplate(),
+        new KotlinBasicTemplate(),
+        new KotlinClassicTemplate(),
+        new Scene2DTemplate(),
+        new SuperKoalioTemplate(),
+
+        new AutumnMvcBasicTemplate(),
+        new AutumnMvcBox2dTemplate(),
+        new AutumnMvcVisTemplate(),
+        new KiwiInputTemplate(),
+        new KiwiTemplate(),
+        new KtxTemplate(),
+        new LmlTemplate(),
+        new Noise4JTemplate(),
+        new VisUIBasicTemplate(),
+        new VisUIShowcaseTemplate()
+    );
+    public static final LinkedHashMap<String, Template> templatesByName = new LinkedHashMap<>(templates.size());
+
+    static {
+        for (Template t : templates) {
+            templatesByName.put(t.getId(), t);
+        }
     }
 }
