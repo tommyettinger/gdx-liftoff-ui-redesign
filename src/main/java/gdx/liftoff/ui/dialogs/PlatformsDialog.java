@@ -84,7 +84,7 @@ public class PlatformsDialog extends PopTable  {
         table.defaults().left().spaceLeft(SPACE_LARGE);
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.setMinCheckCount(1);
-        CheckBox checkBox = addPlatform(table, prop.getProperty("core"), prop.getProperty("coreTip"));
+        CheckBox checkBox = addPlatform(table, ("core"), prop.getProperty("coreTip"));
         buttonGroup.add(checkBox);
         PopTable pop = addTooltip(checkBox, Align.top, prop.getProperty("coreMandatoryTip"));
         onClick(checkBox, () -> pop.show(stage));
