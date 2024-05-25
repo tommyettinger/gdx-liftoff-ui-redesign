@@ -612,7 +612,7 @@ public class Main extends ApplicationAdapter {
         for(String platform : UserData.platforms){
             platforms.put(platform, Listing.platformsByName.get(platform));
         }
-        LanguagesData languagesData = new LanguagesData(languagesView.getLanguageObjects(), languagesView.getLanguageVersionMap());
+        LanguagesData languagesData = new LanguagesData(Listing.languages, Listing.languageVersions);
         ExtensionsData extensions = new ExtensionsData(mainView.getOfficialExtensionsByName(UserData.extensions),
             mainView.getThirdPartyExtensionsByName(thirdPartyLibs));
 

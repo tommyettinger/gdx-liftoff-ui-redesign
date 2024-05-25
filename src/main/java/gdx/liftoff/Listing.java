@@ -1,5 +1,9 @@
 package gdx.liftoff;
 
+import gdx.liftoff.data.languages.Groovy;
+import gdx.liftoff.data.languages.Kotlin;
+import gdx.liftoff.data.languages.Language;
+import gdx.liftoff.data.languages.Scala;
 import gdx.liftoff.data.platforms.*;
 
 import java.util.ArrayList;
@@ -13,7 +17,7 @@ import static gdx.liftoff.Maker.*;
 public final class Listing {
     private Listing() {}
 
-    public static ArrayList<Platform> platforms = makeList(
+    public static final ArrayList<Platform> platforms = makeList(
     new Android(),
     new Assets(),
     new Core(),
@@ -27,10 +31,21 @@ public final class Listing {
     new Shared(),
     new TeaVM()
     );
-    public static LinkedHashMap<String, Platform> platformsByName = new LinkedHashMap<>(platforms.size());
+    public static final LinkedHashMap<String, Platform> platformsByName = new LinkedHashMap<>(platforms.size());
     static {
         for(Platform p : platforms) {
             platformsByName.put(p.getId(), p);
+        }
+    }
+
+    public static final ArrayList<Language> languages = makeList(
+        new Kotlin(), new Groovy(), new Scala()
+    );
+
+    public static final LinkedHashMap<String, String> languageVersions = new LinkedHashMap<>(languages.size());
+    static {
+        for(Language l : languages) {
+            languageVersions.put(l.getId(), l.getVersion());
         }
     }
 }
