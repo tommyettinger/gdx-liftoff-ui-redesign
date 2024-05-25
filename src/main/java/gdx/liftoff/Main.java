@@ -495,7 +495,7 @@ public class Main extends ApplicationAdapter {
             UserData.languageVersions.put(UserData.languages.get(i), languageVersions.get(i));
         }
 
-        UserData.extensions = splitCSV(prop.getProperty("extensionsDefaultNames"));
+        extensions = splitCSV(prop.getProperty("extensionsDefaultNames"));
         UserData.template = prop.getProperty("templateDefaultName");
         UserData.thirdPartyLibs = splitCSV(prop.getProperty("platformsDefaultNames"));
         UserData.libgdxVersion = prop.getProperty("libgdxDefaultVersion");
@@ -520,7 +520,7 @@ public class Main extends ApplicationAdapter {
             UserData.languageVersions.put(UserData.languages.get(i), languageVersions.get(i));
         }
 
-        UserData.extensions = splitCSV(prop.getProperty("extensionsDefaultNames"));
+        extensions = splitCSV(prop.getProperty("extensionsDefaultNames"));
         UserData.template = prop.getProperty("templateDefaultName");
         UserData.thirdPartyLibs = splitCSV(prop.getProperty("platformsDefaultNames"));
         UserData.libgdxVersion = prop.getProperty("libgdxDefaultVersion");
@@ -606,10 +606,10 @@ public class Main extends ApplicationAdapter {
             platforms.put(platform, Listing.platformsByName.get(platform));
         }
         LanguagesData languagesData = new LanguagesData(Listing.languages, Listing.languageVersions);
-        ExtensionsData extensions = new ExtensionsData(mainView.getOfficialExtensionsByName(UserData.extensions),
-            mainView.getThirdPartyExtensionsByName(thirdPartyLibs));
+        ExtensionsData extensionsData = new ExtensionsData(Listing.chooseOfficialLibraries(extensions),
+            Listing.chooseOfficialLibraries(thirdPartyLibs));
 
-        Project project = new Project(basicData, platforms, advancedData, languagesData, extensions,
+        Project project = new Project(basicData, platforms, advancedData, languagesData, extensionsData,
             templatesView.getTemplateByName(template));
           project.generate();
           project.includeGradleWrapper(new ProjectLogger() {
