@@ -83,11 +83,6 @@ public class Main extends ApplicationAdapter {
     public static final float TOOLTIP_WIDTH = 200;
     public static final float TOOLTIP_WIDTH_LARGE = 300;
 
-    @Inject
-    private static final MainView mainView = gdx.liftoff.config.AutumnKt.inject();
-    private static final LanguagesView languagesView = gdx.liftoff.config.AutumnKt.inject();
-    private static final TemplatesView templatesView = gdx.liftoff.config.AutumnKt.inject();
-
     private static String exceptionToString(Throwable ex) {
         StringBuilder sb = new StringBuilder();
         for(StackTraceElement ste : ex.getStackTrace()){
@@ -501,7 +496,9 @@ public class Main extends ApplicationAdapter {
         UserData.libgdxVersion = prop.getProperty("libgdxDefaultVersion");
         UserData.javaVersion = prop.getProperty("javaDefaultVersion");
         appVersion = prop.getProperty("appDefaultVersion");
+        androidPluginVersion = prop.getProperty("androidPluginDefaultVersion");
         UserData.robovmVersion = prop.getProperty("robovmDefaultVersion");
+        gwtPluginVersion = prop.getProperty("gwtPluginDefaultVersion");
         UserData.addGuiAssets = Boolean.parseBoolean(prop.getProperty("addGuiAssetsDefault"));
         UserData.addReadme = Boolean.parseBoolean(prop.getProperty("addReadmeDefault"));
         UserData.gradleTasks = pref.getString("GradleTasks", prop.getProperty("gradleTasksDefault"));
@@ -526,7 +523,9 @@ public class Main extends ApplicationAdapter {
         UserData.libgdxVersion = prop.getProperty("libgdxDefaultVersion");
         UserData.javaVersion = prop.getProperty("javaDefaultVersion");
         appVersion = prop.getProperty("appDefaultVersion");
+        androidPluginVersion = prop.getProperty("androidPluginDefaultVersion");
         UserData.robovmVersion = prop.getProperty("robovmDefaultVersion");
+        gwtPluginVersion = prop.getProperty("gwtPluginDefaultVersion");
         UserData.addGuiAssets = Boolean.parseBoolean(prop.getProperty("addGuiAssetsDefault"));
         UserData.addReadme = Boolean.parseBoolean(prop.getProperty("addReadmeDefault"));
         UserData.gradleTasks = prop.getProperty("gradleTasksDefault");
@@ -566,7 +565,7 @@ public class Main extends ApplicationAdapter {
             return false;
         }
 
-        boolean android = UserData.platforms.contains(prop.getProperty("android"));
+        boolean android = UserData.platforms.contains("android");
         if (android && (UserData.androidPath == null || UserData.androidPath.isEmpty())) {
             return false;
         }
@@ -592,18 +591,18 @@ public class Main extends ApplicationAdapter {
         BasicProjectData basicData = new BasicProjectData(
             UserData.projectName, UserData.packageName, UserData.mainClassName,
             Gdx.files.absolute(UserData.projectPath), Gdx.files.absolute(UserData.androidPath));
-        GlobalActionContainer defaults = new GlobalActionContainer();
         AdvancedProjectData advancedData = new AdvancedProjectData(appVersion, libgdxVersion, javaVersion,
-            defaults.getDefaultAndroidPluginVersion(), defaults.getDefaultRoboVMVersion(),
-            defaults.getDefaultGwtPluginVersion(), javaVersion, javaVersion, addGuiAssets, addReadme,
+            androidPluginVersion, robovmVersion,
+            gwtPluginVersion, javaVersion, javaVersion, addGuiAssets, addReadme,
             gradleTasks != null && !gradleTasks.isEmpty()
                 ? Arrays.asList(gradleTasks.split("\\s+"))
                 : Collections.emptyList(),
             true, 4);
 
         LinkedHashMap<String, Platform> platforms = new LinkedHashMap<>(UserData.platforms.size());
-        for(String platform : UserData.platforms){
-            platforms.put(platform, Listing.platformsByName.get(platform));
+        for(String p : UserData.platforms){
+//            String platform = p.toLowerCase(Locale.ROOT);
+            platforms.put(p, Listing.platformsByName.get(p));
         }
         LanguagesData languagesData = new LanguagesData(Listing.languages, Listing.languageVersions);
         ExtensionsData extensionsData = new ExtensionsData(Listing.chooseOfficialLibraries(extensions),

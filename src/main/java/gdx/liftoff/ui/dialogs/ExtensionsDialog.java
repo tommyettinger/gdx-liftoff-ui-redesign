@@ -77,14 +77,14 @@ public class ExtensionsDialog extends PopTable  {
         scrollTable.add(table).spaceTop(SPACE_MEDIUM).growX();
 
         table.defaults().left().spaceLeft(SPACE_MEDIUM);
-        addExtension(table, prop.getProperty("ashley"), prop.getProperty("ashleyTip"), prop.getProperty("ashleyUrl"));
-        addExtension(table, prop.getProperty("box2dlights"), prop.getProperty("box2dlightsTip"), prop.getProperty("gdx-box2dlightsUrl"));
-        addExtension(table, prop.getProperty("gdx-ai"), prop.getProperty("gdx-aiTip"), prop.getProperty("gdx-aiUrl"));
-        addExtension(table, prop.getProperty("gdx-box2d"), prop.getProperty("gdx-box2dTip"), prop.getProperty("gdx-box2dUrl"));
-        addExtension(table, prop.getProperty("gdx-bullet"), prop.getProperty("gdx-bulletTip"), prop.getProperty("gdx-bulletUrl"));
-        addExtension(table, prop.getProperty("gdx-controllers"), prop.getProperty("gdx-controllersTip"), prop.getProperty("gdx-controllersUrl"));
-        addExtension(table, prop.getProperty("gdx-freetype"), prop.getProperty("gdx-freetypeTip"), prop.getProperty("gdx-freetypeUrl"));
-        addExtension(table, prop.getProperty("gdx-tools"), prop.getProperty("gdx-toolsTip"), prop.getProperty("gdx-toolsUrl"));
+        addExtension(table, ("ashley"), prop.getProperty("ashleyTip"), prop.getProperty("ashleyUrl"));
+        addExtension(table, ("box2dlights"), prop.getProperty("box2dlightsTip"), prop.getProperty("gdx-box2dlightsUrl"));
+        addExtension(table, ("gdx-ai"), prop.getProperty("gdx-aiTip"), prop.getProperty("gdx-aiUrl"));
+        addExtension(table, ("gdx-box2d"), prop.getProperty("gdx-box2dTip"), prop.getProperty("gdx-box2dUrl"));
+        addExtension(table, ("gdx-bullet"), prop.getProperty("gdx-bulletTip"), prop.getProperty("gdx-bulletUrl"));
+        addExtension(table, ("gdx-controllers"), prop.getProperty("gdx-controllersTip"), prop.getProperty("gdx-controllersUrl"));
+        addExtension(table, ("gdx-freetype"), prop.getProperty("gdx-freetypeTip"), prop.getProperty("gdx-freetypeUrl"));
+        addExtension(table, ("gdx-tools"), prop.getProperty("gdx-toolsTip"), prop.getProperty("gdx-toolsUrl"));
 
         //links
         scrollTable.row();
@@ -135,7 +135,8 @@ public class ExtensionsDialog extends PopTable  {
     private void addExtension(Table table, String extensionName, String description, String url) {
         //checkbox
         table.row();
-        CheckBox checkBox = new CheckBox(extensionName, skin);
+        String localName = prop.getProperty(extensionName);
+        CheckBox checkBox = new CheckBox(localName, skin);
         checkBox.setChecked(UserData.extensions.contains(extensionName));
         table.add(checkBox);
         addHandListener(checkBox);

@@ -89,16 +89,16 @@ public class TemplatesDialog extends PopTable  {
         addTooltip(label, Align.top, prop.getProperty("officialTemplatesTip"));
 
         //basic templates
-        addTemplate(table, buttonGroup, prop.getProperty("classic"), prop.getProperty("classicTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("applicationAdapter"), prop.getProperty("applicationAdapterTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("applicationListener"), prop.getProperty("applicationListenerTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("emptyTemplate"), prop.getProperty("emptyTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("gameTemplate"), prop.getProperty("gameTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("inputProcessor"), prop.getProperty("inputProcessorTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("kotlinClassicTemplate"), prop.getProperty("kotlinClassicTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("kotlinTemplate"), prop.getProperty("kotlinTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("scene2dTemplate"), prop.getProperty("scene2dTemplateTip"), true);
-        addTemplate(table, buttonGroup, prop.getProperty("superKoalio"), prop.getProperty("superKoalioTip"));
+        addTemplate(table, buttonGroup, ("classic"), prop.getProperty("classicTip"));
+        addTemplate(table, buttonGroup, ("applicationAdapter"), prop.getProperty("applicationAdapterTip"));
+        addTemplate(table, buttonGroup, ("applicationListener"), prop.getProperty("applicationListenerTip"));
+        addTemplate(table, buttonGroup, ("emptyTemplate"), prop.getProperty("emptyTemplateTip"));
+        addTemplate(table, buttonGroup, ("gameTemplate"), prop.getProperty("gameTemplateTip"));
+        addTemplate(table, buttonGroup, ("inputProcessor"), prop.getProperty("inputProcessorTip"));
+        addTemplate(table, buttonGroup, ("kotlinClassicTemplate"), prop.getProperty("kotlinClassicTemplateTip"));
+        addTemplate(table, buttonGroup, ("kotlinTemplate"), prop.getProperty("kotlinTemplateTip"));
+        addTemplate(table, buttonGroup, ("scene2dTemplate"), prop.getProperty("scene2dTemplateTip"), true);
+        addTemplate(table, buttonGroup, ("superKoalio"), prop.getProperty("superKoalioTip"));
 
         //third-party templates title
         table.row();
@@ -109,16 +109,16 @@ public class TemplatesDialog extends PopTable  {
         addTooltip(label, Align.top, prop.getProperty("officialTemplatesTip"));
 
         //third-party templates
-        addTemplate(table, buttonGroup, prop.getProperty("ktxTemplate"), prop.getProperty("ktxTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("lmlKiwiInputTemplate"), prop.getProperty("lmlKiwiInputTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("lmlKiwiTemplate"), prop.getProperty("lmlKiwiTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("lmlMvcBasicTemplate"), prop.getProperty("lmlMvcBasicTemplateTip"), true);
-        addTemplate(table, buttonGroup, prop.getProperty("lmlMvcBox2dTemplate"), prop.getProperty("lmlMvcBox2dTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("lmlMvcVisTemplate"), prop.getProperty("lmlMvcVisTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("lmlTemplate"), prop.getProperty("lmlTemplateTip"), true);
-        addTemplate(table, buttonGroup, prop.getProperty("noise4jTemplate"), prop.getProperty("noise4jTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("visUiBasicTemplate"), prop.getProperty("visUiBasicTemplateTip"));
-        addTemplate(table, buttonGroup, prop.getProperty("visUiShowcaseTemplate"), prop.getProperty("visUiShowcaseTemplateTip"));
+        addTemplate(table, buttonGroup, ("ktxTemplate"), prop.getProperty("ktxTemplateTip"));
+        addTemplate(table, buttonGroup, ("lmlKiwiInputTemplate"), prop.getProperty("lmlKiwiInputTemplateTip"));
+        addTemplate(table, buttonGroup, ("lmlKiwiTemplate"), prop.getProperty("lmlKiwiTemplateTip"));
+        addTemplate(table, buttonGroup, ("lmlMvcBasicTemplate"), prop.getProperty("lmlMvcBasicTemplateTip"), true);
+        addTemplate(table, buttonGroup, ("lmlMvcBox2dTemplate"), prop.getProperty("lmlMvcBox2dTemplateTip"));
+        addTemplate(table, buttonGroup, ("lmlMvcVisTemplate"), prop.getProperty("lmlMvcVisTemplateTip"));
+        addTemplate(table, buttonGroup, ("lmlTemplate"), prop.getProperty("lmlTemplateTip"), true);
+        addTemplate(table, buttonGroup, ("noise4jTemplate"), prop.getProperty("noise4jTemplateTip"));
+        addTemplate(table, buttonGroup, ("visUiBasicTemplate"), prop.getProperty("visUiBasicTemplateTip"));
+        addTemplate(table, buttonGroup, ("visUiShowcaseTemplate"), prop.getProperty("visUiShowcaseTemplateTip"));
 
         //links
         scrollTable.row();
@@ -149,22 +149,23 @@ public class TemplatesDialog extends PopTable  {
         });
     }
 
-    private void addTemplate(Table table, ButtonGroup buttonGroup, String labelText, String description) {
-        addTemplate(table, buttonGroup, labelText, description, false);
+    private void addTemplate(Table table, ButtonGroup buttonGroup, String templateName, String description) {
+        addTemplate(table, buttonGroup, templateName, description, false);
     }
 
     /**
      * A convenience method to add a template to the table
      * @param table The table to add the widgets
      * @param buttonGroup The button group that the checkbox should belong to
-     * @param templateName The name of the template
+     * @param templateName The name of the template, and the text of the label
      * @param description A short description of the template
      * @param showGuiTip When set to true, a tooltip is shown that signifies that the widget depends on the default
      *                   GUI Skin
      */
     private void addTemplate(Table table, ButtonGroup buttonGroup, String templateName, String description, boolean showGuiTip) {
         table.row();
-        CheckBox checkBox = new CheckBox(templateName, skin, "radio");
+        String localName = prop.getProperty(templateName);
+        CheckBox checkBox = new CheckBox(localName, skin, "radio");
         checkBox.setChecked(UserData.template.equals(templateName));
         checkBox.left();
         table.add(checkBox).spaceRight(SPACE_MEDIUM).growX();

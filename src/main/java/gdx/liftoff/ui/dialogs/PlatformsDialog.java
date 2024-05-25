@@ -89,10 +89,10 @@ public class PlatformsDialog extends PopTable  {
         PopTable pop = addTooltip(checkBox, Align.top, prop.getProperty("coreMandatoryTip"));
         onClick(checkBox, () -> pop.show(stage));
 
-        addPlatform(table, prop.getProperty("lwjgl3"), prop.getProperty("lwjgl3Tip"));
-        addPlatform(table, prop.getProperty("android"), prop.getProperty("androidTip"));
-        addPlatform(table, prop.getProperty("ios"), prop.getProperty("iosTip"));
-        addPlatform(table, prop.getProperty("html"), prop.getProperty("htmlTip"));
+        addPlatform(table, ("lwjgl3"), prop.getProperty("lwjgl3Tip"));
+        addPlatform(table, ("android"), prop.getProperty("androidTip"));
+        addPlatform(table, ("ios"), prop.getProperty("iosTip"));
+        addPlatform(table, ("html"), prop.getProperty("htmlTip"));
 
         //secondary platforms title
         scrollTable.row();
@@ -105,11 +105,11 @@ public class PlatformsDialog extends PopTable  {
 
         //secondary platforms
         table.defaults().left().spaceLeft(SPACE_LARGE);
-        addPlatform(table, prop.getProperty("headless"), prop.getProperty("headlessTip"));
-        addPlatform(table, prop.getProperty("teavm"), prop.getProperty("teavmTip"));
-        addPlatform(table, prop.getProperty("lwjgl2"), prop.getProperty("lwjgl2Tip"));
-        addPlatform(table, prop.getProperty("server"), prop.getProperty("serverTip"));
-        addPlatform(table, prop.getProperty("shared"), prop.getProperty("sharedTip"));
+        addPlatform(table, ("headless"), prop.getProperty("headlessTip"));
+        addPlatform(table, ("teavm"), prop.getProperty("teavmTip"));
+        addPlatform(table, ("lwjgl2"), prop.getProperty("lwjgl2Tip"));
+        addPlatform(table, ("server"), prop.getProperty("serverTip"));
+        addPlatform(table, ("shared"), prop.getProperty("sharedTip"));
 
         //ok button
         contentTable.row();
@@ -130,7 +130,8 @@ public class PlatformsDialog extends PopTable  {
      */
     private CheckBox addPlatform(Table table, String platformName, String description) {
         table.row();
-        CheckBox checkBox = new CheckBox(platformName, skin);
+        String localName = prop.getProperty(platformName);
+        CheckBox checkBox = new CheckBox(localName, skin);
         checkBox.setChecked(UserData.platforms.contains(platformName));
         checkBox.left();
         table.add(checkBox).growX();

@@ -87,7 +87,7 @@ public class LanguagesDialog extends PopTable  {
         //languages
         addLanguage(table, "groovy", prop.getProperty("groovyDefaultVersion"));
         addLanguage(table, "kotlin", prop.getProperty("kotlinDefaultVersion"));
-        addLanguage(table, "scala", prop.getProperty("scalaDefaultVersion"));
+        addLanguage(table, "scala",  prop.getProperty("scalaDefaultVersion"));
 
         //languages description
         scrollTable.row();
