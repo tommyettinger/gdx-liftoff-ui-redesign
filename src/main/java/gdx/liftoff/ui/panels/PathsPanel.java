@@ -52,6 +52,8 @@ public class PathsPanel extends Table implements Panel {
                         String path = files.first().path();
                         projectFieldButton.setText(path);
                         UserData.projectPath = path;
+                        pref.putString("projectPath", path);
+                        pref.flush();
                         updateError();
                         if (FullscreenDialog.fullscreenDialog != null) FullscreenDialog.fullscreenDialog.updateGenerateButton();
                         if (root.settingsTable != null) root.settingsTable.updateGenerateButton();

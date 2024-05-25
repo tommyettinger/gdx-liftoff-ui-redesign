@@ -25,17 +25,11 @@ import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.czyzby.autumn.annotation.Inject;
-import com.github.czyzby.autumn.context.ContextInitializer;
-import com.github.czyzby.autumn.fcs.scanner.DesktopClassScanner;
-import com.github.czyzby.autumn.mvc.application.AutumnApplication;
-import com.github.czyzby.autumn.nongwt.scanner.FallbackDesktopClassScanner;
-import com.kotcrab.vis.ui.util.OsUtils;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
 import com.kotcrab.vis.ui.widget.file.FileChooser.SelectionMode;
 import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 import com.ray3k.stripe.*;
 import gdx.liftoff.actions.GlobalActionContainer;
-import gdx.liftoff.data.libraries.Library;
 import gdx.liftoff.data.platforms.Platform;
 import gdx.liftoff.data.project.*;
 import gdx.liftoff.ui.OverlayTable;
@@ -51,7 +45,6 @@ import java.io.IOException;
 import java.lang.StringBuilder;
 import java.util.*;
 import java.util.Collections;
-import java.util.List;
 
 import static gdx.liftoff.ui.UserData.*;
 import static gdx.liftoff.ui.dialogs.FullscreenDialog.fullscreenDialog;
@@ -512,7 +505,7 @@ public class Main extends ApplicationAdapter {
         UserData.addGuiAssets = Boolean.parseBoolean(prop.getProperty("addGuiAssetsDefault"));
         UserData.addReadme = Boolean.parseBoolean(prop.getProperty("addReadmeDefault"));
         UserData.gradleTasks = pref.getString("GradleTasks", prop.getProperty("gradleTasksDefault"));
-        UserData.projectPath = prop.getProperty("projectPathDefault");
+        UserData.projectPath = pref.getString("projectPath", prop.getProperty("projectPathDefault"));
         UserData.androidPath = pref.getString("AndroidSdk", prop.getProperty("androidPathDefault"));
         UserData.log = prop.getProperty("generationEnd") + "\n" + prop.getProperty("generationEnd");
     }
