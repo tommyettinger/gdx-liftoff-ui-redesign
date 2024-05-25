@@ -155,6 +155,10 @@ public class LanguagesDialog extends PopTable  {
                 UserData.languageVersions.put(languageName, textField.getText());
             }
             else UserData.languages.remove(languageName);
+            pref.putString("Languages", String.join(",", UserData.languages));
+            pref.putString("LanguageVersions", String.join(",", UserData.languageVersions.values()));
+            pref.flush();
+
         });
 
         onChange(textField, () -> {

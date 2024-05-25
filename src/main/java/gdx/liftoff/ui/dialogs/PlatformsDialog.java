@@ -139,6 +139,8 @@ public class PlatformsDialog extends PopTable  {
         onChange(checkBox, () -> {
             if (checkBox.isChecked() && !UserData.platforms.contains(platformName)) UserData.platforms.add(platformName);
             else UserData.platforms.remove(platformName);
+            pref.putString("Platforms", String.join(",", UserData.platforms));
+            pref.flush();
         });
 
         Label label = new Label(description, skin, "description");
