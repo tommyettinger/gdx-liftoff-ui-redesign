@@ -178,8 +178,7 @@ public class AddOnsPanel extends Table implements Panel {
 
         table.defaults().growX().space(SPACE_SMALL);
         for (String name : names) {
-            name = capitalize ? name.toUpperCase(Locale.ROOT) : name;
-            if (name.equals("IOS")) name = "iOS";//capitalization exception for iOS platform
+            name = capitalize ? prop.getProperty(name, name) : name;
             Label label = new Label(name, skin);
             label.setEllipsis("...");
             table.add(label).minWidth(0).prefWidth(0).growX();
