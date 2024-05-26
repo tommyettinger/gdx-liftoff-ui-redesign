@@ -17,8 +17,8 @@ import static gdx.liftoff.Main.*;
 /**
  * The dialog shown when the user clicks the platforms list in the add-ons panel
  */
-public class PlatformsDialog extends PopTable  {
-    private static GlyphLayout layout = new GlyphLayout();
+public class PlatformsDialog extends PopTable {
+    private static final GlyphLayout layout = new GlyphLayout();
 
     public PlatformsDialog(boolean fullscreen) {
         setStyle(skin.get("dialog", WindowStyle.class));
@@ -32,7 +32,7 @@ public class PlatformsDialog extends PopTable  {
             Table contentTable = new Table();
             populate(contentTable);
 
-            Container container = new Container(contentTable);
+            Container<Table> container = new Container<>(contentTable);
             container.minSize(0, 0);
             collapsibleGroup.addActor(container);
 
@@ -82,7 +82,7 @@ public class PlatformsDialog extends PopTable  {
         //primary platforms
         //manually add core to a button group of one to enforce that it is always checked
         table.defaults().left().spaceLeft(SPACE_LARGE);
-        ButtonGroup buttonGroup = new ButtonGroup();
+        ButtonGroup<CheckBox> buttonGroup = new ButtonGroup<>();
         buttonGroup.setMinCheckCount(1);
         CheckBox checkBox = addPlatform(table, ("core"), prop.getProperty("coreTip"));
         buttonGroup.add(checkBox);
@@ -116,16 +116,15 @@ public class PlatformsDialog extends PopTable  {
         TextButton textButton = new TextButton(prop.getProperty("ok"), skin);
         contentTable.add(textButton).prefWidth(140).spaceTop(SPACE_LARGE);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            hide();
-        });
+        onChange(textButton, this::hide);
     }
 
     /**
      * Convenience method to add platforms to the table
-     * @param table The table to add the widgets to
+     *
+     * @param table        The table to add the widgets to
      * @param platformName The name of the platform
-     * @param description A short description of the platform
+     * @param description  A short description of the platform
      * @return The CheckBox created for the platform
      */
     private CheckBox addPlatform(Table table, String platformName, String description) {
@@ -137,7 +136,8 @@ public class PlatformsDialog extends PopTable  {
         table.add(checkBox).growX();
         addHandListener(checkBox);
         onChange(checkBox, () -> {
-            if (checkBox.isChecked() && !UserData.platforms.contains(platformName)) UserData.platforms.add(platformName);
+            if (checkBox.isChecked() && !UserData.platforms.contains(platformName))
+                UserData.platforms.add(platformName);
             else UserData.platforms.remove(platformName);
             pref.putString("Platforms", String.join(",", UserData.platforms));
             pref.flush();

@@ -86,9 +86,10 @@ public class SettingsPanel extends Table implements Panel {
 
     /**
      * Convenience method to add a text field setting
-     * @param text The name of the setting
-     * @param tip A short description of the setting
-     * @param table The table to add this setting to
+     *
+     * @param text             The name of the setting
+     * @param tip              A short description of the setting
+     * @param table            The table to add this setting to
      * @param setKeyboardFocus True indicates that this textfield should take keyboard focus when the screen is switched
      */
     private TextField addField(String text, String tip, String version, Table table, boolean setKeyboardFocus) {
@@ -110,8 +111,9 @@ public class SettingsPanel extends Table implements Panel {
 
     /**
      * Convenience method to add a check mark setting
-     * @param text The name of the setting
-     * @param tip A short description of the setting
+     *
+     * @param text  The name of the setting
+     * @param tip   A short description of the setting
      * @param table The table to add this setting to
      */
     private ImageButton addCheck(String text, String tip, Boolean checked, Table table) {

@@ -27,7 +27,7 @@ public class LandingTable extends LiftoffTable {
     private Image logoImage;
     private Label subtitleLabel;
     private Label versionLabel;
-    private Container updateContainer;
+    private Container<Actor> updateContainer;
     private TextButton updateButton;
     private ProjectPanel projectPanel;
     private CollapsibleGroup buttonsCollapsibleGroup;
@@ -80,7 +80,7 @@ public class LandingTable extends LiftoffTable {
 
         //update link
         table.row();
-        updateContainer = new Container();
+        updateContainer = new Container<>();
         updateContainer.setColor(CLEAR_WHITE);
         table.add(updateContainer);
 
@@ -91,9 +91,6 @@ public class LandingTable extends LiftoffTable {
         addHandListener(updateButton);
         addTooltip(updateButton, Align.bottom, prop.getProperty("updateTip"));
         onChange(updateButton, () -> Gdx.net.openURI(prop.getProperty("updateUrl")));
-
-        Container container = new Container();
-        verticalCollapsibleGroup.addActor(container);
 
         //project panel
         row();

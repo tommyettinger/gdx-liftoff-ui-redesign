@@ -20,8 +20,8 @@ import static gdx.liftoff.Main.*;
 /**
  * The dialog shown when the user clicks the template button in the add-ons panel
  */
-public class TemplatesDialog extends PopTable  {
-    private static GlyphLayout layout = new GlyphLayout();
+public class TemplatesDialog extends PopTable {
+    private static final GlyphLayout layout = new GlyphLayout();
 
     public TemplatesDialog(boolean fullscreen) {
         setStyle(skin.get("dialog", WindowStyle.class));
@@ -35,7 +35,7 @@ public class TemplatesDialog extends PopTable  {
             Table contentTable = new Table();
             populate(contentTable);
 
-            Container container = new Container(contentTable);
+            Container<Actor> container = new Container<>(contentTable);
             container.minSize(0, 0);
             collapsibleGroup.addActor(container);
 
@@ -79,7 +79,7 @@ public class TemplatesDialog extends PopTable  {
         scrollTable.add(table).spaceTop(SPACE_MEDIUM).growX();
 
         table.defaults().left().space(SPACE_SMALL);
-        ButtonGroup buttonGroup = new ButtonGroup();
+        ButtonGroup<CheckBox> buttonGroup = new ButtonGroup<>();
 
         //basic templates title
         table.row();
@@ -144,25 +144,24 @@ public class TemplatesDialog extends PopTable  {
         textButton = new TextButton("OK", skin);
         contentTable.add(textButton).prefWidth(140).spaceTop(SPACE_LARGE);
         addHandListener(textButton);
-        onChange(textButton, () -> {
-            hide();
-        });
+        onChange(textButton, this::hide);
     }
 
-    private void addTemplate(Table table, ButtonGroup buttonGroup, String templateName, String description) {
+    private void addTemplate(Table table, ButtonGroup<CheckBox> buttonGroup, String templateName, String description) {
         addTemplate(table, buttonGroup, templateName, description, false);
     }
 
     /**
      * A convenience method to add a template to the table
-     * @param table The table to add the widgets
-     * @param buttonGroup The button group that the checkbox should belong to
+     *
+     * @param table        The table to add the widgets
+     * @param buttonGroup  The button group that the checkbox should belong to
      * @param templateName The name of the template, and the text of the label
-     * @param description A short description of the template
-     * @param showGuiTip When set to true, a tooltip is shown that signifies that the widget depends on the default
-     *                   GUI Skin
+     * @param description  A short description of the template
+     * @param showGuiTip   When set to true, a tooltip is shown that signifies that the widget depends on the default
+     *                     GUI Skin
      */
-    private void addTemplate(Table table, ButtonGroup buttonGroup, String templateName, String description, boolean showGuiTip) {
+    private void addTemplate(Table table, ButtonGroup<CheckBox> buttonGroup, String templateName, String description, boolean showGuiTip) {
         table.row();
         String localName = prop.getProperty(templateName);
         CheckBox checkBox = new CheckBox(localName, skin, "radio");

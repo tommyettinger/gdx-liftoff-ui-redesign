@@ -6,12 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.ray3k.stripe.SmashGroup;
 import gdx.liftoff.ui.UserData;
 import gdx.liftoff.ui.dialogs.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -148,7 +146,7 @@ public class AddOnsPanel extends Table implements Panel {
         smashGroup.setSecondActor(chooseButton);
         addTooltip(chooseButton, label, Align.top, TOOLTIP_WIDTH, prop.getProperty("templateTip"));
 
-        Container chooseContainer = new Container();
+        Container<Actor> chooseContainer = new Container<>();
         chooseContainer.setTouchable(Touchable.enabled);
         stack.add(chooseContainer);
         addHandListener(chooseContainer);
@@ -170,6 +168,7 @@ public class AddOnsPanel extends Table implements Panel {
 
     /**
      * Convenience method to populate each add-ons button with a list of add-ons
+     *
      * @param table
      * @param names
      */

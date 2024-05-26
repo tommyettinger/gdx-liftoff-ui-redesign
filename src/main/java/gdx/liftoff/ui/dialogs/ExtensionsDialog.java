@@ -2,6 +2,7 @@ package gdx.liftoff.ui.dialogs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
@@ -18,8 +19,8 @@ import static gdx.liftoff.Main.*;
 /**
  * The extensions dialog displayed when the user clicks the extensions list in the add-ons panel.
  */
-public class ExtensionsDialog extends PopTable  {
-    private static GlyphLayout layout = new GlyphLayout();
+public class ExtensionsDialog extends PopTable {
+    private static final GlyphLayout layout = new GlyphLayout();
 
     public ExtensionsDialog(boolean fullscreen) {
         setStyle(skin.get("dialog", WindowStyle.class));
@@ -33,7 +34,7 @@ public class ExtensionsDialog extends PopTable  {
             Table contentTable = new Table();
             populate(contentTable);
 
-            Container container = new Container(contentTable);
+            Container<Table> container = new Container<>(contentTable);
             container.minSize(0, 0);
             collapsibleGroup.addActor(container);
 
@@ -107,7 +108,7 @@ public class ExtensionsDialog extends PopTable  {
         addHandListener(textButton);
         onChange(textButton, () -> Gdx.net.openURI(prop.getProperty("gdxPayUrl")));
 
-        Container container = new Container();
+        Container<Actor> container = new Container<>();
         container.left();
         collapsibleGroup.addActor(container);
 
@@ -122,15 +123,16 @@ public class ExtensionsDialog extends PopTable  {
         textButton = new TextButton("OK", skin);
         contentTable.add(textButton).prefWidth(140).spaceTop(SPACE_LARGE);
         addHandListener(textButton);
-        onChange(textButton, () -> hide());
+        onChange(textButton, this::hide);
     }
 
     /**
      * Convenience method that adds an extension to the given table.
-     * @param table The table to add widgets to
+     *
+     * @param table         The table to add widgets to
      * @param extensionName The name of the extension
-     * @param description A short description of the extension
-     * @param url The URL pointing to the home page of the extension
+     * @param description   A short description of the extension
+     * @param url           The URL pointing to the home page of the extension
      */
     private void addExtension(Table table, String extensionName, String description, String url) {
         //checkbox
@@ -141,7 +143,8 @@ public class ExtensionsDialog extends PopTable  {
         table.add(checkBox);
         addHandListener(checkBox);
         onChange(checkBox, () -> {
-            if (checkBox.isChecked() && !UserData.extensions.contains(extensionName)) UserData.extensions.add(extensionName);
+            if (checkBox.isChecked() && !UserData.extensions.contains(extensionName))
+                UserData.extensions.add(extensionName);
             else UserData.extensions.remove(extensionName);
             pref.putString("Extensions", String.join(",", UserData.extensions));
             pref.flush();

@@ -14,7 +14,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import static gdx.liftoff.Main.*;
 
 public class RootTable extends Table {
-    private Array<LiftoffTable> tables;
+    private final Array<LiftoffTable> tables;
     private int tableIndex;
     public LandingTable landingTable;
     public AddOnsTable addOnsTable;

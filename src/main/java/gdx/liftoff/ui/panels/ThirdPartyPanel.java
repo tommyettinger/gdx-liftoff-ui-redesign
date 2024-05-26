@@ -18,7 +18,7 @@ import static gdx.liftoff.Main.*;
  */
 public class ThirdPartyPanel extends Table implements Panel {
     private Actor keyboardFocus;
-    private Array<SearchEntry> searchEntries = new Array<>();
+    private final Array<SearchEntry> searchEntries = new Array<>();
     private Table scrollTable;
 
     public ThirdPartyPanel(boolean fullscreen) {
@@ -62,10 +62,10 @@ public class ThirdPartyPanel extends Table implements Panel {
         addScrollFocusListener(scrollPane);
 
         //third party extensions
-        for(Library lib : Listing.unofficialLibraries) {
+        for (Library lib : Listing.unofficialLibraries) {
             addThirdParty(lib.getId());
         }
-        
+
         populateScrollTable(null);
 
         row();
@@ -89,16 +89,17 @@ public class ThirdPartyPanel extends Table implements Panel {
     }
 
     private SearchEntry addThirdParty(String name) {
-        return addThirdParty(name, prop.getProperty(name), prop.getProperty(name + "Tip"), prop.getProperty(name + "Url"),  prop.getProperty(name + "Terms"));
+        return addThirdParty(name, prop.getProperty(name), prop.getProperty(name + "Tip"), prop.getProperty(name + "Url"), prop.getProperty(name + "Terms"));
     }
 
     /**
      * Convenience method to add a third party library to the searchEntries list
-     * @param name The name of the library
+     *
+     * @param name        The name of the library
      * @param description A short description of the library
-     * @param link The URL pointing to the library's home page
-     * @param keywords Search terms to be implemented in the search TextField; the library name is already included with
-     *                 the keywords
+     * @param link        The URL pointing to the library's home page
+     * @param keywords    Search terms to be implemented in the search TextField; the library name is already included with
+     *                    the keywords
      * @return The data object containing the details of the third-party library
      */
     private SearchEntry addThirdParty(String id, String name, String description, String link, String keywords) {
@@ -110,6 +111,7 @@ public class ThirdPartyPanel extends Table implements Panel {
     /**
      * Clears the table and adds each SearchEntry containing the search string as a checkbox with an associated
      * description and link
+     *
      * @param search
      */
     private void populateScrollTable(String search) {
@@ -129,7 +131,8 @@ public class ThirdPartyPanel extends Table implements Panel {
             checkBox.getLabelCell().growX().maxWidth(200);
             scrollTable.add(checkBox).left().growX();
             onChange(checkBox, () -> {
-                if (checkBox.isChecked() && !UserData.thirdPartyLibs.contains(searchEntry.id)) UserData.thirdPartyLibs.add(searchEntry.id);
+                if (checkBox.isChecked() && !UserData.thirdPartyLibs.contains(searchEntry.id))
+                    UserData.thirdPartyLibs.add(searchEntry.id);
                 else UserData.thirdPartyLibs.remove(searchEntry.id);
                 pref.putString("ThirdParty", String.join(",", UserData.thirdPartyLibs));
                 pref.flush();

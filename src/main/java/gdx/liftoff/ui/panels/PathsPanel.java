@@ -11,7 +11,6 @@ import com.kotcrab.vis.ui.widget.file.FileChooserAdapter;
 import gdx.liftoff.Main;
 import gdx.liftoff.ui.UserData;
 import gdx.liftoff.ui.dialogs.FullscreenDialog;
-import gdx.liftoff.ui.liftofftables.SettingsTable;
 
 import static gdx.liftoff.Main.*;
 
@@ -38,7 +37,8 @@ public class PathsPanel extends Table implements Panel {
         addTooltip(projectFieldButton, label, Align.top, 0, prop.getProperty("destinationTip"));
         onChange(projectFieldButton, () -> {
             FileHandle initialFolder = Gdx.files.absolute(Gdx.files.getExternalStoragePath());
-            if (UserData.projectPath != null && !UserData.projectPath.isEmpty()) initialFolder = Gdx.files.absolute(UserData.projectPath);
+            if (UserData.projectPath != null && !UserData.projectPath.isEmpty())
+                initialFolder = Gdx.files.absolute(UserData.projectPath);
 
             Main.pickDirectory(initialFolder, new FileChooserAdapter() {
                 @Override
@@ -55,7 +55,8 @@ public class PathsPanel extends Table implements Panel {
                         pref.putString("projectPath", path);
                         pref.flush();
                         updateError();
-                        if (FullscreenDialog.fullscreenDialog != null) FullscreenDialog.fullscreenDialog.updateGenerateButton();
+                        if (FullscreenDialog.fullscreenDialog != null)
+                            FullscreenDialog.fullscreenDialog.updateGenerateButton();
                         if (root.settingsTable != null) root.settingsTable.updateGenerateButton();
                         root.quickSettingsTable.populate();
                     }
@@ -76,7 +77,8 @@ public class PathsPanel extends Table implements Panel {
             addTooltip(androidFieldButton, label, Align.top, 0, prop.getProperty("sdkTip"));
             onChange(androidFieldButton, () -> {
                 FileHandle initialFolder = Gdx.files.absolute(Gdx.files.getExternalStoragePath());
-                if (UserData.androidPath != null && !UserData.androidPath.isEmpty()) initialFolder = Gdx.files.absolute(UserData.androidPath);
+                if (UserData.androidPath != null && !UserData.androidPath.isEmpty())
+                    initialFolder = Gdx.files.absolute(UserData.androidPath);
 
                 Main.pickDirectory(initialFolder, new FileChooserAdapter() {
                     @Override
@@ -150,6 +152,7 @@ public class PathsPanel extends Table implements Panel {
 
     /**
      * Convenience method to add fields to the table.
+     *
      * @param text The name of the field
      */
     private TextButton addField(String text) {
