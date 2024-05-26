@@ -57,7 +57,7 @@ public class AddOnsPanel extends Table implements Panel {
         scrollPane.setFlickScroll(false);
         scrollPane.setFadeScrollBars(false);
         button.add(scrollPane).grow().padTop(SPACE_MEDIUM);
-        createButtons(scrollTable, UserData.platforms, false);
+        createButtons(scrollTable, UserData.platforms, true);
         addScrollFocusListener(scrollPane);
 
         //languages
@@ -178,7 +178,9 @@ public class AddOnsPanel extends Table implements Panel {
 
         table.defaults().growX().space(SPACE_SMALL);
         for (String name : names) {
-            Label label = new Label(capitalize ? name.toUpperCase(Locale.ROOT) : name, skin);
+            name = capitalize ? name.toUpperCase(Locale.ROOT) : name;
+            if (name.equals("IOS")) name = "iOS";//capitalization exception for iOS platform
+            Label label = new Label(name, skin);
             label.setEllipsis("...");
             table.add(label).minWidth(0).prefWidth(0).growX();
             table.row();
