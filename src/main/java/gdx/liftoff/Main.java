@@ -587,7 +587,7 @@ public class Main extends ApplicationAdapter {
      * Placeholder for project generation.
      */
     public static void generateProject() {
-        //todo:insert project generation code based on UserData here
+        //todo: check the rest of project generation code based on UserData here
 
         BasicProjectData basicData = new BasicProjectData(
             UserData.projectName, UserData.packageName, UserData.mainClassName,
@@ -606,7 +606,7 @@ public class Main extends ApplicationAdapter {
         }
         LanguagesData languagesData = new LanguagesData(Listing.chooseLanguages(languages), UserData.languageVersions);
         ExtensionsData extensionsData = new ExtensionsData(Listing.chooseOfficialLibraries(extensions),
-            Listing.chooseOfficialLibraries(thirdPartyLibs));
+            Listing.chooseUnofficialLibraries(thirdPartyLibs));
 
         Project project = new Project(basicData, platforms, advancedData, languagesData, extensionsData,
             Listing.templatesByName.getOrDefault(template, Listing.templates.get(0)));
