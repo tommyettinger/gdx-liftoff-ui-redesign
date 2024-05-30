@@ -84,7 +84,7 @@ public class AddOnsPanel extends Table implements Panel {
         scrollPane.setFlickScroll(false);
         scrollPane.setFadeScrollBars(false);
         button.add(scrollPane).grow().padTop(SPACE_MEDIUM);
-        createButtons(scrollTable, UserData.getLanguages(), true);
+        createButtons(scrollTable, UserData.languages, true);
         addScrollFocusListener(scrollPane);
 
         //extensions
@@ -135,7 +135,7 @@ public class AddOnsPanel extends Table implements Panel {
         stack.add(smashGroup);
 
         //template button
-        TextButton chooseFieldButton = new TextButton(UserData.template, skin, "select");
+        TextButton chooseFieldButton = new TextButton(prop.getProperty(UserData.template), skin, "select");
         chooseFieldButton.getLabel().setAlignment(Align.left);
         smashGroup.setFirstActor(chooseFieldButton);
         smashGroup.getFirstContainer().minWidth(150);
@@ -172,13 +172,13 @@ public class AddOnsPanel extends Table implements Panel {
      * @param table
      * @param names
      */
-    private void createButtons(Table table, Collection<String> names, boolean capitalize) {
+    private void createButtons(Table table, Collection<String> names, boolean localize) {
         table.clearChildren();
         table.top();
 
         table.defaults().growX().space(SPACE_SMALL);
         for (String name : names) {
-            name = capitalize ? prop.getProperty(name, name) : name;
+            name = localize ? prop.getProperty(name, name) : name;
             Label label = new Label(name, skin);
             label.setEllipsis("...");
             table.add(label).minWidth(0).prefWidth(0).growX();
