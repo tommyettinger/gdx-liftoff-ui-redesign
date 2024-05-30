@@ -209,6 +209,8 @@ public class Main extends ApplicationAdapter {
 
         skin = new Skin(Gdx.files.internal("ui-skin/skin.json"));
 
+        skin.getFont("font-label-tooltip").getData().breakChars = new char[]{'-'};
+
         fitViewport = new FitViewport(1920, 1080);
         screenViewport = new ScreenViewport();
         batch = new SpriteBatch();
