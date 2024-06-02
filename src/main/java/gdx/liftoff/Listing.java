@@ -148,10 +148,10 @@ public final class Listing {
             new KryoJuniper(),
             new KryoJdkgdxds(),
             new KryoCringe(),
+            new KryoGand(),
             new TantrumLibgdx(),
             new TantrumRegExodus(),
             new TantrumDigital(),
-            new TantrumJuniper(),
             new TantrumJdkgdxds(),
 
             new SquidLibUtil(),
