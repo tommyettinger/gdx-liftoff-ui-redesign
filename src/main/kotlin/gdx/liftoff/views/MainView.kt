@@ -296,10 +296,10 @@ class MainView : ActionContainer {
   fun getThirdPartyExtensionsUrls(): Array<String> =
     extensionsData.thirdParty.sortedBy { it.id }.map { it.url }.toTypedArray()
 
-  fun getOfficialExtensionsByName(names : Collection<String>) : List<Library> =
+  fun getOfficialExtensionsByName(names: Collection<String>): List<Library> =
     extensionsData.official.filter { names.contains(it.id) }.toList()
 
-  fun getThirdPartyExtensionsByName(names : Collection<String>) : List<Library> =
+  fun getThirdPartyExtensionsByName(names: Collection<String>): List<Library> =
     extensionsData.thirdParty.filter { names.contains(it.id) }.toList()
 
   @LmlAction("initTabs")

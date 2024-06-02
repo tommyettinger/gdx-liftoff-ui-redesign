@@ -564,9 +564,9 @@ public class Main extends ApplicationAdapter {
             return false;
         }
 
-        if (tempFileHandle.list().length != 0) {
-            return false;
-        }
+//        if (tempFileHandle.list().length != 0) {
+//            return false;
+//        }
 
         boolean android = UserData.platforms.contains("android");
         if (android && (UserData.androidPath == null || UserData.androidPath.isEmpty())) {
