@@ -138,6 +138,7 @@ public class PathsPanel extends Table implements Panel {
             return;
         }
 
+        tempFileHandle = Gdx.files.absolute(UserData.projectPath);
         if (tempFileHandle.list().length != 0) {
             errorLabel.setText(prop.getProperty("notEmptyDirectory"));
             return;
