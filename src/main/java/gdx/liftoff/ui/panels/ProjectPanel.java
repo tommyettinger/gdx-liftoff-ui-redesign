@@ -91,8 +91,9 @@ public class ProjectPanel extends Table implements Panel {
         //error label
         row();
         errorLabel = new Label("", skin, "error");
-        errorLabel.setEllipsis("...");
-        add(errorLabel).minWidth(0);
+        errorLabel.setWrap(true);
+        errorLabel.setAlignment(Align.center);
+        add(errorLabel).growX();
         updateError();
 
         ChangeListener changeListener = new ChangeListener() {
@@ -109,27 +110,27 @@ public class ProjectPanel extends Table implements Panel {
 
     private void updateError() {
         if (UserData.projectName.isEmpty()) {
-            errorLabel.setText(String.format(prop.getProperty("notEmpty"), prop.getProperty("name")));
+            errorLabel.setText("[RED]" + String.format(prop.getProperty("notEmpty"), prop.getProperty("name"))+ "[]");
             return;
         }
 
         if (UserData.packageName.isEmpty()) {
-            errorLabel.setText(String.format(prop.getProperty("notEmpty"), prop.getProperty("package")));
+            errorLabel.setText("[RED]" + String.format(prop.getProperty("notEmpty"), prop.getProperty("package")) + "[]");
             return;
         }
 
         if (!isValidPackageName(UserData.packageName)) {
-            errorLabel.setText(prop.getProperty("packageNotValid"));
+            errorLabel.setText("[RED]" + prop.getProperty("packageNotValid") + "[]");
             return;
         }
 
         if (UserData.mainClassName.isEmpty()) {
-            errorLabel.setText(String.format(prop.getProperty("notEmpty"), prop.getProperty("class")));
+            errorLabel.setText("[RED]" + String.format(prop.getProperty("notEmpty"), prop.getProperty("class")) + "[]");
             return;
         }
 
         if (!isValidClassName(UserData.mainClassName)) {
-            errorLabel.setText(prop.getProperty("classNotValid"));
+            errorLabel.setText("[RED]" + prop.getProperty("classNotValid") + "[]");
             return;
         }
 
