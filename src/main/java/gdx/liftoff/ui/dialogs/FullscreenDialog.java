@@ -135,7 +135,7 @@ public class FullscreenDialog extends PopTable {
         contentTable.add(table).growX();
 
         //empty cell for equal spacing
-        table.add().expandX();
+        table.add().expandX().uniformX();
 
         //generate button
         generateButton = new TextButton(prop.getProperty("generate"), skin, "big");
@@ -153,7 +153,7 @@ public class FullscreenDialog extends PopTable {
 
         //version
         label = new Label("v" + prop.getProperty("liftoffVersion"), skin);
-        table.add(label).expandX().right().bottom();
+        table.add(label).expandX().right().bottom().uniformX();
     }
 
     @Override
