@@ -121,12 +121,7 @@ public class PathsPanel extends Table implements Panel {
             return;
         }
 
-        if (tempFileHandle.list().length != 0) {
-            errorLabel.setText(prop.getProperty("notEmptyDirectory"));
-            return;
-        }
-
-        boolean android = UserData.platforms.contains(prop.getProperty("android"));
+        boolean android = UserData.platforms.contains("android");
         if (android && (UserData.androidPath == null || UserData.androidPath.isEmpty())) {
             errorLabel.setText(prop.getProperty("sdkNullDirectory"));
             return;
@@ -140,6 +135,11 @@ public class PathsPanel extends Table implements Panel {
 
         if (android && !Main.isAndroidSdkDirectory(UserData.androidPath)) {
             errorLabel.setText(prop.getProperty("invalidSdkDirectory"));
+            return;
+        }
+
+        if (tempFileHandle.list().length != 0) {
+            errorLabel.setText(prop.getProperty("notEmptyDirectory"));
             return;
         }
 
