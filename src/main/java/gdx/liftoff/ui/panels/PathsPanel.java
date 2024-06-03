@@ -64,7 +64,7 @@ public class PathsPanel extends Table implements Panel {
             });
         });
 
-        if (UserData.platforms.contains(prop.getProperty("android"))) {
+        if (UserData.platforms.contains("android")) {
             //android label
             row();
             label = new Label(prop.getProperty("androidSdkPrompt"), skin, "field");
