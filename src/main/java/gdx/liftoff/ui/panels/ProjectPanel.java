@@ -110,27 +110,27 @@ public class ProjectPanel extends Table implements Panel {
 
     private void updateError() {
         if (UserData.projectName.isEmpty()) {
-            errorLabel.setText("[RED]" + String.format(prop.getProperty("notEmpty"), prop.getProperty("name"))+ "[]");
+            errorLabel.setText(String.format(prop.getProperty("notEmpty"), prop.getProperty("name")));
             return;
         }
 
         if (UserData.packageName.isEmpty()) {
-            errorLabel.setText("[RED]" + String.format(prop.getProperty("notEmpty"), prop.getProperty("package")) + "[]");
+            errorLabel.setText(String.format(prop.getProperty("notEmpty"), prop.getProperty("package")));
             return;
         }
 
         if (!isValidPackageName(UserData.packageName)) {
-            errorLabel.setText("[RED]" + prop.getProperty("packageNotValid") + "[]");
+            errorLabel.setText(prop.getProperty("packageNotValid"));
             return;
         }
 
         if (UserData.mainClassName.isEmpty()) {
-            errorLabel.setText("[RED]" + String.format(prop.getProperty("notEmpty"), prop.getProperty("class")) + "[]");
+            errorLabel.setText(String.format(prop.getProperty("notEmpty"), prop.getProperty("class")));
             return;
         }
 
         if (!isValidClassName(UserData.mainClassName)) {
-            errorLabel.setText("[RED]" + prop.getProperty("classNotValid") + "[]");
+            errorLabel.setText(prop.getProperty("classNotValid"));
             return;
         }
 
