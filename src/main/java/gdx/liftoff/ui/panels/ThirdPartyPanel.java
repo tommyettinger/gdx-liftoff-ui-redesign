@@ -20,6 +20,7 @@ public class ThirdPartyPanel extends Table implements Panel {
     private Actor keyboardFocus;
     private final Array<SearchEntry> searchEntries = new Array<>();
     private Table scrollTable;
+    private CheckBox filterCheckBox;
 
     public ThirdPartyPanel(boolean fullscreen) {
         populate(fullscreen);
@@ -65,6 +66,14 @@ public class ThirdPartyPanel extends Table implements Panel {
         for (Library lib : Listing.unofficialLibraries) {
             addThirdParty(lib.getId());
         }
+
+        //selected filter checkbox
+        row();
+        filterCheckBox = new CheckBox("", skin);
+        add(filterCheckBox).left().spaceTop(SPACE_SMALL);
+        addHandListener(filterCheckBox);
+        updateFilterCheckBox();
+        onChange(filterCheckBox, () -> populateScrollTable(textField.getText()));
 
         populateScrollTable(null);
 
@@ -115,10 +124,13 @@ public class ThirdPartyPanel extends Table implements Panel {
      * @param search
      */
     private void populateScrollTable(String search) {
+        boolean showOnlySelected = filterCheckBox.isChecked();
         if (search != null) search = search.toLowerCase(Locale.ROOT).replaceAll("\\W", "");
         scrollTable.clearChildren();
 
         for (SearchEntry searchEntry : searchEntries) {
+            if (showOnlySelected && !UserData.thirdPartyLibs.contains(searchEntry.id)) continue;
+
             if (search != null && !search.isEmpty() &&
                 !searchEntry.name.toLowerCase(Locale.ROOT).contains(search) &&
                 !searchEntry.keywords.toLowerCase(Locale.ROOT).contains(search)) continue;
@@ -136,6 +148,7 @@ public class ThirdPartyPanel extends Table implements Panel {
                 else UserData.thirdPartyLibs.remove(searchEntry.id);
                 pref.putString("ThirdParty", String.join(",", UserData.thirdPartyLibs));
                 pref.flush();
+                updateFilterCheckBox();
             });
             addHandListener(checkBox);
 
@@ -151,6 +164,10 @@ public class ThirdPartyPanel extends Table implements Panel {
             addHandListener(button);
             onChange(button, () -> Gdx.net.openURI(searchEntry.link));
         }
+    }
+
+    private void updateFilterCheckBox() {
+        filterCheckBox.setText(String.format("Show only selected (%d of %d)", UserData.thirdPartyLibs.size(), Listing.unofficialLibraries.size()));
     }
 
     public void captureKeyboardFocus() {
