@@ -1,5 +1,6 @@
 package gdx.liftoff.ui.dialogs;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -93,6 +94,16 @@ public class FullscreenCompleteDialog extends PopTable {
             addAction(sequence(
                 targeting(generatingPanel, fadeIn(.5f)),
                 delay(1f),
+                new Action() {
+                    @Override
+                    public boolean act(float v) {
+                        if (generatingProject) return false;
+                        else {
+                            completePanel.populate(true);
+                            return true;
+                        }
+                    }
+                },
                 targeting(generatingPanel, fadeOut(.3f)),
                 targeting(table, fadeIn(.3f)),
                 targeting(table, touchable(Touchable.enabled))

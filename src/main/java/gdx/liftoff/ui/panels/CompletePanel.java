@@ -20,6 +20,8 @@ public class CompletePanel extends Table implements Panel {
 
     @Override
     public void populate(boolean fullscreen) {
+        System.out.println("populate");
+        clearChildren();
         //logo
         defaults().space(SPACE_MEDIUM);
         LogoWidget logo = new LogoWidget();
