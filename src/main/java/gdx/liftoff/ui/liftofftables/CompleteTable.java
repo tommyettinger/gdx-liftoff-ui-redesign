@@ -1,5 +1,6 @@
 package gdx.liftoff.ui.liftofftables;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import gdx.liftoff.ui.panels.CompleteButtonsPanel;
@@ -47,6 +48,16 @@ public class CompleteTable extends LiftoffTable {
         //animation
         addAction(sequence(
             delay(1f),
+            new Action() {
+                @Override
+                public boolean act(float v) {
+                    if (generatingProject) return false;
+                    else {
+                        completePanel.populate(false);
+                        return true;
+                    }
+                }
+            },
             targeting(generatingPanel, fadeOut(.3f)),
             targeting(table, fadeIn(.3f)),
             targeting(table, touchable(Touchable.enabled))

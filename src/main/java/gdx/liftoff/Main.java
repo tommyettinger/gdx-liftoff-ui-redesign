@@ -65,6 +65,7 @@ public class Main extends ApplicationAdapter {
     public static Color CLEAR_WHITE = new Color(1, 1, 1, 0);
     public static Image bgImage = new Image();
     public static boolean resizingWindow;
+    public static boolean generatingProject;
     public static Properties prop;
     public static Preferences pref;
     private static final GlyphLayout layout = new GlyphLayout();
@@ -589,44 +590,50 @@ public class Main extends ApplicationAdapter {
      * Placeholder for project generation.
      */
     public static void generateProject() {
-        try {
-            BasicProjectData basicData = new BasicProjectData(
-                UserData.projectName, UserData.packageName, UserData.mainClassName,
-                Gdx.files.absolute(UserData.projectPath), Gdx.files.absolute(UserData.androidPath));
-            AdvancedProjectData advancedData = new AdvancedProjectData(appVersion, libgdxVersion, javaVersion,
-                androidPluginVersion, robovmVersion,
-                gwtPluginVersion, javaVersion, javaVersion, addGuiAssets, addReadme,
-                gradleTasks != null && !gradleTasks.isEmpty()
-                    ? Arrays.asList(gradleTasks.split("\\s+"))
-                    : Collections.emptyList(),
-                true, 4);
+        generatingProject = true;
+        Thread generateThread = new Thread(() -> {
+            try {
+                BasicProjectData basicData = new BasicProjectData(
+                    UserData.projectName, UserData.packageName, UserData.mainClassName,
+                    Gdx.files.absolute(UserData.projectPath), Gdx.files.absolute(UserData.androidPath));
+                AdvancedProjectData advancedData = new AdvancedProjectData(appVersion, libgdxVersion, javaVersion,
+                    androidPluginVersion, robovmVersion,
+                    gwtPluginVersion, javaVersion, javaVersion, addGuiAssets, addReadme,
+                    gradleTasks != null && !gradleTasks.isEmpty()
+                        ? Arrays.asList(gradleTasks.split("\\s+"))
+                        : Collections.emptyList(),
+                    true, 4);
 
-            LinkedHashMap<String, Platform> platforms = new LinkedHashMap<>(UserData.platforms.size());
-            for (String p : UserData.platforms) {
-                platforms.put(p, Listing.platformsByName.get(p));
+                LinkedHashMap<String, Platform> platforms = new LinkedHashMap<>(UserData.platforms.size());
+                for (String p : UserData.platforms) {
+                    platforms.put(p, Listing.platformsByName.get(p));
+                }
+                LanguagesData languagesData = new LanguagesData(Listing.chooseLanguages(languages), UserData.languageVersions);
+                ExtensionsData extensionsData = new ExtensionsData(Listing.chooseOfficialLibraries(extensions),
+                    Listing.chooseUnofficialLibraries(thirdPartyLibs));
+
+                Project project = new Project(basicData, platforms, advancedData, languagesData, extensionsData,
+                    Listing.templatesByName.getOrDefault(template, Listing.templates.get(0)));
+                project.generate();
+                project.includeGradleWrapper(new ProjectLogger() {
+                    @Override
+                    public void log(@NotNull String message) {
+                        System.out.println(message);
+                    }
+
+                    @Override
+                    public void logNls(@NotNull String bundleLine) {
+                        System.out.println(prop.getProperty(bundleLine, "???"));
+                    }
+                }, false);
+                log = prop.getProperty("generationEnd");
+                generatingProject = false;
+            } catch (Exception e) {
+                log = exceptionToString(e) + "\n\n" + prop.getProperty("generationFail");
+                generatingProject = false;
             }
-            LanguagesData languagesData = new LanguagesData(Listing.chooseLanguages(languages), UserData.languageVersions);
-            ExtensionsData extensionsData = new ExtensionsData(Listing.chooseOfficialLibraries(extensions),
-                Listing.chooseUnofficialLibraries(thirdPartyLibs));
-
-            Project project = new Project(basicData, platforms, advancedData, languagesData, extensionsData,
-                Listing.templatesByName.getOrDefault(template, Listing.templates.get(0)));
-            project.generate();
-            project.includeGradleWrapper(new ProjectLogger() {
-                @Override
-                public void log(@NotNull String message) {
-                    System.out.println(message);
-                }
-
-                @Override
-                public void logNls(@NotNull String bundleLine) {
-                    System.out.println(prop.getProperty(bundleLine, "???"));
-                }
-            }, false);
-            log = prop.getProperty("generationEnd");
-        } catch (Exception e) {
-            log = exceptionToString(e) + "\n\n" + prop.getProperty("generationFail");
-        }
+        });
+        generateThread.start();
     }
 
     private final static HashSet<String> BLOCKED_TYPES = new HashSet<>(Arrays.asList("absolutefilehandleresolver", "abstractgraphics", "abstractinput", "action", "actions", "actor", "actorgesturelistener", "addaction", "addlisteneraction", "affine2", "afteraction", "align", "alphaaction", "ambientcubemap", "animatedtiledmaptile", "animation", "animation", "animationcontroller", "annotation", "application", "applicationadapter", "applicationlistener", "applicationlogger", "array", "arraymap", "arrayreflection", "arrayselection", "arraytexturespritebatch", "arrowshapebuilder", "assetdescriptor", "asseterrorlistener", "assetloader", "assetloaderparameters", "assetmanager", "asyncexecutor", "asynchronousassetloader", "asyncresult", "asynctask", "atlastmxmaploader", "atomicqueue", "attribute", "attributes", "audio", "audiodevice", "audiorecorder", "base", "base64coder", "baseanimationcontroller", "basedrawable", "basejsonreader", "baselight", "baseshader", "baseshaderprovider", "baseshapebuilder", "basetmxmaploader", "batch", "batchtiledmaprenderer", "bezier", "billboardcontrollerrenderdata", "billboardparticlebatch", "billboardrenderer", "binaryheap", "bintree", "bitmapfont", "bitmapfontcache", "bitmapfontloader", "bits", "bittreedecoder", "bittreeencoder", "blendingattribute", "booleanarray", "boundingbox", "boxshapebuilder", "bresenham2", "bspline", "bufferedparticlebatch", "bufferutils", "button", "buttongroup", "bytearray", "camera", "cameragroupstrategy", "camerainputcontroller", "capsuleshapebuilder", "catmullromspline", "cell", "changelistener", "chararray", "checkbox", "circle", "circlemapobject", "classpathfilehandleresolver", "classreflection", "clicklistener", "clipboard", "collections", "color", "coloraction", "colorattribute", "colorinfluencer", "colors", "coneshapebuilder", "constructor", "container", "convexhull", "countdowneventaction", "cpuspritebatch", "crc", "cubemap", "cubemapattribute", "cubemapdata", "cubemaploader", "cullable", "cumulativedistribution", "cursor", "customtexture3ddata", "cylindershapebuilder", "cylinderspawnshapevalue", "databuffer", "datainput", "dataoutput", "decal", "decalbatch", "decalmaterial", "decoder", "decoder", "defaultrenderablesorter", "defaultshader", "defaultshaderprovider", "defaulttexturebinder", "delaunaytriangulator", "delayaction", "delayedremovalarray", "delegateaction", "depthshader", "depthshaderprovider", "depthtestattribute", "dialog", "directionallight", "directionallightsattribute", "directionalshadowlight", "disableable", "disposable", "distancefieldfont", "draganddrop", "draglistener", "dragscrolllistener", "drawable", "dynamicsinfluencer", "dynamicsmodifier", "earclippingtriangulator", "ellipse", "ellipsemapobject", "ellipseshapebuilder", "ellipsespawnshapevalue", "emitter", "encoder", "encoder", "environment", "etc1", "etc1texturedata", "event", "eventaction", "eventlistener", "extendviewport", "externalfilehandleresolver", "facedcubemapdata", "field", "filehandle", "filehandleresolver", "filehandlestream", "files", "filetexturearraydata", "filetexturedata", "fillviewport", "firstpersoncameracontroller", "fitviewport", "floataction", "floatarray", "floatattribute", "floatcounter", "floatframebuffer", "floattexturedata", "flushablepool", "focuslistener", "fpslogger", "framebuffer", "framebuffercubemap", "frustum", "frustumshapebuilder", "g3dmodelloader", "game", "gdx", "gdx2dpixmap", "gdxnativesloader", "gdxruntimeexception", "geometryutils", "gesturedetector", "gl20", "gl20interceptor", "gl30", "gl30interceptor", "gl31", "gl31interceptor", "gl32", "gl32interceptor", "glerrorlistener", "glframebuffer", "glinterceptor", "glonlytexturedata", "glprofiler", "gltexture", "glversion", "glyphlayout", "gradientcolorvalue", "graphics", "gridpoint2", "gridpoint3", "group", "groupplug", "groupstrategy", "hdpimode", "hdpiutils", "hexagonaltiledmaprenderer", "horizontalgroup", "httpparametersutils", "httprequestbuilder", "httprequestheader", "httpresponseheader", "httpstatus", "i18nbundle", "i18nbundleloader", "icodeprogress", "identitymap", "image", "imagebutton", "imageresolver", "imagetextbutton", "immediatemoderenderer", "immediatemoderenderer20", "indexarray", "indexbufferobject", "indexbufferobjectsubdata", "indexdata", "influencer", "input", "inputadapter", "inputevent", "inputeventqueue", "inputlistener", "inputmultiplexer", "inputprocessor", "instancebufferobject", "instancebufferobjectsubdata", "instancedata", "intaction", "intarray", "intattribute", "internalfilehandleresolver", "interpolation", "intersector", "intfloatmap", "intintmap", "intmap", "intset", "inwindow", "isometricstaggeredtiledmaprenderer", "isometrictiledmaprenderer", "json", "jsonreader", "jsonvalue", "jsonwriter", "ktxtexturedata", "label", "layout", "layoutaction", "lifecyclelistener", "linespawnshapevalue", "list", "littleendianinputstream", "localfilehandleresolver", "logger", "longarray", "longmap", "longqueue", "lzma", "map", "mapgrouplayer", "maplayer", "maplayers", "mapobject", "mapobjects", "mapproperties", "maprenderer", "material", "mathutils", "matrix3", "matrix4", "mesh", "meshbuilder", "meshpart", "meshpartbuilder", "meshspawnshapevalue", "method", "mipmapgenerator", "mipmaptexturedata", "model", "modelanimation", "modelbatch", "modelbuilder", "modelcache", "modeldata", "modelinfluencer", "modelinstance", "modelinstancecontrollerrenderdata", "modelinstanceparticlebatch", "modelinstancerenderer", "modelloader", "modelmaterial", "modelmesh", "modelmeshpart", "modelnode", "modelnodeanimation", "modelnodekeyframe", "modelnodepart", "modeltexture", "movebyaction", "movetoaction", "music", "musicloader", "nativeinputconfiguration", "net", "netjavaimpl", "netjavaserversocketimpl", "netjavasocketimpl", "ninepatch", "ninepatchdrawable", "node", "nodeanimation", "nodekeyframe", "nodepart", "null", "numberutils", "numericvalue", "objectfloatmap", "objectintmap", "objectlongmap", "objectmap", "objectset", "objloader", "octree", "orderedmap", "orderedset", "orientedboundingbox", "orthocachedtiledmaprenderer", "orthogonaltiledmaprenderer", "orthographiccamera", "outwindow", "parallelaction", "parallelarray", "particlebatch", "particlechannels", "particlecontroller", "particlecontrollercomponent", "particlecontrollercontrollerrenderer", "particlecontrollerfinalizerinfluencer", "particlecontrollerinfluencer", "particlecontrollerrenderdata", "particlecontrollerrenderer", "particleeffect", "particleeffect", "particleeffectactor", "particleeffectloader", "particleeffectloader", "particleeffectpool", "particleemitter", "particleshader", "particlesorter", "particlesystem", "particlevalue", "patchshapebuilder", "path", "pauseablethread", "performancecounter", "performancecounters", "perspectivecamera", "pixmap", "pixmapio", "pixmaploader", "pixmappacker", "pixmappackerio", "pixmaptexturedata", "plane", "pluggablegroupstrategy", "pointlight", "pointlightsattribute", "pointspawnshapevalue", "pointspritecontrollerrenderdata", "pointspriteparticlebatch", "pointspriterenderer", "polygon", "polygonbatch", "polygonmapobject", "polygonregion", "polygonregionloader", "polygonsprite", "polygonspritebatch", "polyline", "polylinemapobject", "pool", "pooledlinkedlist", "pools", "predicate", "preferences", "prefixfilehandleresolver", "primitivespawnshapevalue", "progressbar", "propertiesutils", "quadtreefloat", "quaternion", "queue", "quickselect", "randomxs128", "rangednumericvalue", "ray", "rectangle", "rectanglemapobject", "rectanglespawnshapevalue", "reflectionexception", "reflectionpool", "regioninfluencer", "regularemitter", "relativetemporalaction", "remoteinput", "remotesender", "removeaction", "removeactoraction", "removelisteneraction", "renderable", "renderableprovider", "renderableshapebuilder", "renderablesorter", "rendercontext", "repeatablepolygonsprite", "repeataction", "resolutionfileresolver", "resourcedata", "rotatebyaction", "rotatetoaction", "runnableaction", "scalebyaction", "scalednumericvalue", "scaleinfluencer", "scaletoaction", "scaling", "scalingviewport", "scissorstack", "screen", "screenadapter", "screenutils", "screenviewport", "scrollpane", "segment", "select", "selectbox", "selection", "sequenceaction", "serializationexception", "serversocket", "serversockethints", "shader", "shaderprogram", "shaderprogramloader", "shaderprovider", "shadowmap", "shape2d", "shapecache", "shaperenderer", "shortarray", "simpleinfluencer", "simpleorthogroupstrategy", "sizebyaction", "sizetoaction", "skin", "skinloader", "slider", "snapshotarray", "socket", "sockethints", "sort", "sortedintlist", "sound", "soundloader", "spawninfluencer", "spawnshapevalue", "sphere", "sphereshapebuilder", "sphericalharmonics", "splitpane", "spotlight", "spotlightsattribute", "sprite", "spritebatch", "spritecache", "spritedrawable", "stack", "stage", "statictiledmaptile", "streamutils", "stretchviewport", "stringbuilder", "synchronousassetloader", "table", "temporalaction", "textarea", "textbutton", "textfield", "textinputwrapper", "texttooltip", "texture", "texture3d", "texture3ddata", "texturearray", "texturearraydata", "textureatlas", "textureatlasloader", "textureattribute", "texturebinder", "texturedata", "texturedescriptor", "textureloader", "texturemapobject", "textureprovider", "textureregion", "textureregiondrawable", "threadutils", "tidemaploader", "tileddrawable", "tiledmap", "tiledmapimagelayer", "tiledmaprenderer", "tiledmaptile", "tiledmaptilelayer", "tiledmaptilemapobject", "tiledmaptileset", "tiledmaptilesets", "timer", "timescaleaction", "timeutils", "tmxmaploader", "tooltip", "tooltipmanager", "touchable", "touchableaction", "touchpad", "transformdrawable", "tree", "ubjsonreader", "ubjsonwriter", "uiutils", "unweightedmeshspawnshapevalue", "value", "vector", "vector2", "vector3", "vector4", "version", "vertexarray", "vertexattribute", "vertexattributes", "vertexbufferobject", "vertexbufferobjectsubdata", "vertexbufferobjectwithvao", "vertexdata", "verticalgroup", "viewport", "visibleaction", "weightmeshspawnshapevalue", "widget", "widgetgroup", "window", "windowedmean", "xmlreader", "xmlwriter"));
