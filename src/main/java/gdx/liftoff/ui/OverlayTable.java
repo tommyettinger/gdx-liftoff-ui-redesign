@@ -57,12 +57,6 @@ public class OverlayTable extends Table {
             pref.flush();
 
             Main.maximizeWindow();
-            fadeOut();
-            Gdx.app.postRunnable(() -> {
-                root.fadeOutTable();
-                if (root.getCurrentTable() == root.completeTable) FullscreenCompleteDialog.show(false);
-                else FullscreenDialog.show();
-            });
         });
 
         //version
