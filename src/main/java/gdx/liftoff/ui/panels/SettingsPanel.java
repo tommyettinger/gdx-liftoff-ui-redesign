@@ -46,8 +46,11 @@ public class SettingsPanel extends Table implements Panel {
         onChange(applicationTextField, () -> UserData.libgdxVersion = applicationTextField.getText());
 
         //robovm version
-        TextField robovmTextField = addField(prop.getProperty("robovmVersion"), prop.getProperty("robovmVersionTip"), UserData.robovmVersion, table);
-        onChange(robovmTextField, () -> UserData.libgdxVersion = robovmTextField.getText());
+        if (UserData.platforms.contains("ios")) {
+            TextField robovmTextField = addField(prop.getProperty("robovmVersion"),
+                prop.getProperty("robovmVersionTip"), UserData.robovmVersion, table);
+            onChange(robovmTextField, () -> UserData.libgdxVersion = robovmTextField.getText());
+        }
 
         //add gui assets
         table.defaults().spaceTop(SPACE_MEDIUM);
