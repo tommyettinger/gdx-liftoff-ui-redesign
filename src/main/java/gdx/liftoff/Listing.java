@@ -227,12 +227,12 @@ public final class Listing {
     }
 
     public static final LinkedHashMap<String, Library> unofficialByName = new LinkedHashMap<>(unofficialLibraries.size());
-
     static {
         for (Library l : unofficialLibraries) {
             unofficialByName.put(l.getId(), l);
         }
     }
+    public static final LinkedHashSet<String> unofficialNames = new LinkedHashSet<>(unofficialByName.keySet());
 
     public static ArrayList<Library> chooseUnofficialLibraries(Collection<String> names) {
         LinkedHashMap<String, Library> cpy = new LinkedHashMap<>(unofficialByName);

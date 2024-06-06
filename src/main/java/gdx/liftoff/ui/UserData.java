@@ -2,6 +2,7 @@ package gdx.liftoff.ui;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 
 public class UserData {
     public static String projectName;
@@ -12,7 +13,7 @@ public class UserData {
     public static LinkedHashMap<String, String> languageVersions;
     public static ArrayList<String> extensions;
     public static String template;
-    public static ArrayList<String> thirdPartyLibs;
+    public static LinkedHashSet<String> thirdPartyLibs;
     public static String libgdxVersion;
     public static String javaVersion;
     public static String appVersion;

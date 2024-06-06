@@ -448,13 +448,23 @@ public class Main extends ApplicationAdapter {
     }
 
     /**
-     * Splits a comma separated value list in a String and returns an Array{@literal <}String{@literal >}
+     * Splits a comma separated value list in a String and returns an ArrayList{@literal <}String{@literal >}.
      *
      * @param string The raw String of comma separated values
-     * @return The array of String values
+     * @return The list of String values
      */
     public static ArrayList<String> splitCSV(String string) {
         return string.isEmpty() ? new ArrayList<>() : new ArrayList<>(Arrays.asList(string.split(",")));
+    }
+
+    /**
+     * Splits a comma separated value list in a String and returns a LinkedHashSet{@literal <}String{@literal >}.
+     *
+     * @param string The raw String of comma separated values
+     * @return The set of String values, in order
+     */
+    public static LinkedHashSet<String> splitCSVSet(String string) {
+        return string.isEmpty() ? new LinkedHashSet<>() : new LinkedHashSet<>(Arrays.asList(string.split(",")));
     }
 
     public static void setDefaultUserData() {
@@ -472,7 +482,8 @@ public class Main extends ApplicationAdapter {
 
         extensions = splitCSV(pref.getString("Extensions", prop.getProperty("extensionsDefaultNames")));
         UserData.template = prop.getProperty("templateDefaultName");
-        UserData.thirdPartyLibs = splitCSV(pref.getString("ThirdParty", prop.getProperty("thirdPartyDefaultNames")));
+        UserData.thirdPartyLibs = splitCSVSet(pref.getString("ThirdParty", prop.getProperty("thirdPartyDefaultNames")));
+        thirdPartyLibs.retainAll(Listing.unofficialNames);
         UserData.libgdxVersion = prop.getProperty("libgdxDefaultVersion");
         UserData.javaVersion = prop.getProperty("javaDefaultVersion");
         appVersion = prop.getProperty("appDefaultVersion");
@@ -499,7 +510,7 @@ public class Main extends ApplicationAdapter {
 
         extensions = splitCSV(prop.getProperty("extensionsDefaultNames"));
         UserData.template = prop.getProperty("templateDefaultName");
-        UserData.thirdPartyLibs = splitCSV(prop.getProperty("platformsDefaultNames"));
+        UserData.thirdPartyLibs = splitCSVSet(prop.getProperty("platformsDefaultNames"));
         UserData.libgdxVersion = prop.getProperty("libgdxDefaultVersion");
         UserData.javaVersion = prop.getProperty("javaDefaultVersion");
         appVersion = prop.getProperty("appDefaultVersion");
