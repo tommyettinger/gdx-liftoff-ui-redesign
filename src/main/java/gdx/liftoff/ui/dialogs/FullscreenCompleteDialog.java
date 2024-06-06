@@ -25,8 +25,11 @@ import static gdx.liftoff.Main.*;
  * available space is larger than 1920x1080.
  */
 public class FullscreenCompleteDialog extends PopTable {
+    public static FullscreenCompleteDialog fullscreenCompleteDialog;
+
     public FullscreenCompleteDialog(boolean showGeneration) {
         super(skin.get("fullscreen", WindowStyle.class));
+        fullscreenCompleteDialog = this;
         setFillParent(true);
         pad(20);
 
