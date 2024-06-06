@@ -213,11 +213,6 @@ public class Main extends ApplicationAdapter {
 
         if (pref.getBoolean("startMaximized", false)) {
             Main.maximizeWindow();
-            Gdx.app.postRunnable(() -> {
-                overlayTable.fadeOut();
-                root.fadeOutTable();
-                FullscreenDialog.show();
-            });
         }
     }
 
