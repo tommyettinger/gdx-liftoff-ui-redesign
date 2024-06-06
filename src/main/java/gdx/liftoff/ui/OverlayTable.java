@@ -48,19 +48,7 @@ public class OverlayTable extends Table {
     private Table createContentTable() {
         Table table = new Table();
 
-        //maximize
-        Button button = new Button(skin, "maximize");
-        table.add(button).expand().top().right();
-        addHandListener(button);
-        onChange(button, () -> {
-            pref.putBoolean("startMaximized", true);
-            pref.flush();
-
-            Main.maximizeWindow();
-        });
-
         //version
-        table.row();
         Label label = new Label("v" + prop.getProperty("liftoffVersion"), skin);
         table.add(label).expand().bottom().right();
 

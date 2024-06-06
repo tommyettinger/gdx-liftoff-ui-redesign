@@ -52,23 +52,7 @@ public class FullscreenCompleteDialog extends PopTable {
     }
 
     private void createPanels(Table contentTable, boolean showGeneration) {
-        //restore button
-        contentTable.defaults().space(SPACE_HUGE);
-        Button button = new Button(skin, "restore");
-        contentTable.add(button).expandX().right();
-        addHandListener(button);
-        onChange(button, () -> {
-            pref.putBoolean("startMaximized", false);
-            pref.flush();
-
-            hide();
-            root.fadeInTable();
-            Main.restoreWindow();
-            overlayTable.fadeIn();
-        });
-
         //generating panel is displayed first and is alternated with the complete panel upon completion of the animation
-        contentTable.row();
         GeneratingPanel generatingPanel = new GeneratingPanel(true);
 
         Table table = new Table();
