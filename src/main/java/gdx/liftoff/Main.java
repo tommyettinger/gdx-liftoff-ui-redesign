@@ -472,7 +472,7 @@ public class Main extends ApplicationAdapter {
 
         extensions = splitCSV(pref.getString("Extensions", prop.getProperty("extensionsDefaultNames")));
         UserData.template = prop.getProperty("templateDefaultName");
-        UserData.thirdPartyLibs = splitCSV(pref.getString("ThirdParty", prop.getProperty("thirdPartyDefaultNames")));
+        UserData.thirdPartyLibs = splitCSV(pref.getString("ThirdPartyLibs", prop.getProperty("thirdPartyDefaultNames")));
         UserData.libgdxVersion = prop.getProperty("libgdxDefaultVersion");
         UserData.javaVersion = prop.getProperty("javaDefaultVersion");
         appVersion = prop.getProperty("appDefaultVersion");

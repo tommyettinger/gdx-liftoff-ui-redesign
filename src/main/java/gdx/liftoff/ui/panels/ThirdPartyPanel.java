@@ -146,7 +146,7 @@ public class ThirdPartyPanel extends Table implements Panel {
                 if (checkBox.isChecked() && !UserData.thirdPartyLibs.contains(searchEntry.id))
                     UserData.thirdPartyLibs.add(searchEntry.id);
                 else UserData.thirdPartyLibs.remove(searchEntry.id);
-                pref.putString("ThirdParty", String.join(",", UserData.thirdPartyLibs));
+                pref.putString("ThirdPartyLibs", String.join(",", UserData.thirdPartyLibs));
                 pref.flush();
                 updateFilterCheckBox();
             });
