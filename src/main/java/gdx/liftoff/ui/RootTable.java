@@ -1,5 +1,6 @@
 package gdx.liftoff.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -77,6 +78,7 @@ public class RootTable extends Table {
     }
 
     public void transitionTable(int tableIndex, boolean rightToLeftTransition) {
+        System.out.println("tableIndex = " + tableIndex);
         LiftoffTable table = tables.get(this.tableIndex);
         table.finishAnimation();
         table.setTouchable(Touchable.disabled);
@@ -111,6 +113,28 @@ public class RootTable extends Table {
                 newTable.captureKeyboardFocus();
             })
         ));
+    }
+
+    public void showTableInstantly(LiftoffTable table) {
+        showTableInstantly(tables.indexOf(table, true));
+    }
+
+    public void showTableInstantly(int tableIndex) {
+        LiftoffTable table = tables.get(this.tableIndex);
+        table.finishAnimation();
+        table.setTouchable(Touchable.disabled);
+        table.setColor(Color.WHITE);
+        stage.setKeyboardFocus(null);
+
+        tableIndex = MathUtils.clamp(tableIndex, 0, tables.size);
+        this.tableIndex = tableIndex;
+        LiftoffTable newTable = tables.get(tableIndex);
+        newTable.populate();
+        newTable.finishAnimation();
+        clearChildren();
+        add(newTable).prefSize(600, 700);
+        newTable.setTouchable(Touchable.childrenOnly);
+        newTable.captureKeyboardFocus();
     }
 
     public void fadeOutTable() {

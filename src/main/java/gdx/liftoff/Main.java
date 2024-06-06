@@ -45,6 +45,7 @@ import java.util.*;
 import java.util.Collections;
 
 import static gdx.liftoff.ui.UserData.*;
+import static gdx.liftoff.ui.dialogs.FullscreenCompleteDialog.*;
 import static gdx.liftoff.ui.dialogs.FullscreenDialog.fullscreenDialog;
 import static org.lwjgl.system.MemoryUtil.memAllocPointer;
 import static org.lwjgl.system.MemoryUtil.memFree;
@@ -126,6 +127,14 @@ public class Main extends ApplicationAdapter {
                 } else {
                     if (fullscreenDialog != null)
                         fullscreenDialog.hide();
+                    if (fullscreenCompleteDialog != null) {
+                        fullscreenCompleteDialog.hide();
+                        if (root != null) {
+                            root.fadeInTable();
+                            root.showTableInstantly(root.completeTable);
+                            root.completeTable.showCompletePanel();
+                        }
+                    }
                     if (root != null)
                         root.fadeInTable();
                     if (overlayTable != null)
