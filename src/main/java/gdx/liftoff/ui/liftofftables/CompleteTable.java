@@ -71,5 +71,6 @@ public class CompleteTable extends LiftoffTable {
 
     @Override
     public void finishAnimation() {
+
     }
 }

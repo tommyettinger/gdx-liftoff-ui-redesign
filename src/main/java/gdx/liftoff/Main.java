@@ -67,7 +67,6 @@ public class Main extends ApplicationAdapter {
     public static Image bgImage = new Image();
     public static boolean resizingWindow;
     public static boolean generatingProject;
-    public static boolean showingComplete = false;
     public static Properties prop;
     public static Preferences pref;
     private static final GlyphLayout layout = new GlyphLayout();
@@ -118,7 +117,7 @@ public class Main extends ApplicationAdapter {
             public void maximized(boolean isMax) {
                 if (isMax){
                     if(root != null) {
-                        if (showingComplete) FullscreenCompleteDialog.show(false);
+                        if (root.getCurrentTable() == root.completeTable) FullscreenCompleteDialog.show(false);
                         else FullscreenDialog.show();
                         root.fadeOutTable();
                     }
@@ -127,11 +126,6 @@ public class Main extends ApplicationAdapter {
                 } else {
                     if (fullscreenDialog != null)
                         fullscreenDialog.hide();
-                    if(showingComplete) {
-                        FullscreenCompleteDialog.unshow();
-                        root.transitionTable(4, true);
-                        root.clearActions();
-                    }
                     if (root != null)
                         root.fadeInTable();
                     if (overlayTable != null)

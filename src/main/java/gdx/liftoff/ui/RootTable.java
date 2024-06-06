@@ -69,7 +69,7 @@ public class RootTable extends Table {
 
     public void transitionTable(boolean goToNextTable) {
         int newIndex = goToNextTable ? tableIndex + 1 : tableIndex - 1;
-        transitionTable(newIndex, goToNextTable);
+        transitionTable(newIndex, tableIndex - newIndex != 1);
     }
 
     public void transitionTable(LiftoffTable table, boolean rightToLeftTransition) {
@@ -85,7 +85,6 @@ public class RootTable extends Table {
         tableIndex = MathUtils.clamp(tableIndex, 0, tables.size);
         this.tableIndex = tableIndex;
         LiftoffTable newTable = tables.get(tableIndex);
-        showingComplete = tableIndex == 4; // 4 is CompleteTable
         newTable.populate();
 
         //animation initial setup

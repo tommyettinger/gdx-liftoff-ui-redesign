@@ -51,7 +51,6 @@ public class CompleteButtonsPanel extends Table implements Panel {
         else {
             onChange(textButton, () -> {
                 popTable.hide();
-                showingComplete = false;
                 FullscreenDialog.show();
             });
         }
