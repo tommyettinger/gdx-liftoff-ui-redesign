@@ -1,8 +1,8 @@
 package gdx.liftoff.ui.dialogs;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -12,7 +12,6 @@ import com.ray3k.stripe.CollapsibleGroup;
 import com.ray3k.stripe.CollapsibleGroup.CollapseType;
 import com.ray3k.stripe.PopTable;
 import com.ray3k.stripe.ScaleContainer;
-import gdx.liftoff.Main;
 import gdx.liftoff.ui.panels.CompleteButtonsPanel;
 import gdx.liftoff.ui.panels.CompletePanel;
 import gdx.liftoff.ui.panels.GeneratingPanel;
@@ -25,6 +24,8 @@ import static gdx.liftoff.Main.*;
  * available space is larger than 1920x1080.
  */
 public class FullscreenCompleteDialog extends PopTable {
+    public static FullscreenCompleteDialog fullscreenCompleteDialog = null;
+
     public FullscreenCompleteDialog(boolean showGeneration) {
         super(skin.get("fullscreen", WindowStyle.class));
         setFillParent(true);
@@ -109,7 +110,18 @@ public class FullscreenCompleteDialog extends PopTable {
     }
 
     public static void show(boolean showGeneration) {
-        FullscreenCompleteDialog fullscreenDialog = new FullscreenCompleteDialog(showGeneration);
-        fullscreenDialog.show(stage);
+        if(fullscreenCompleteDialog == null)
+            fullscreenCompleteDialog = new FullscreenCompleteDialog(showGeneration);
+        fullscreenCompleteDialog.show(stage);
+    }
+
+    public static void unshow() {
+        if(fullscreenCompleteDialog == null) return;
+        fullscreenCompleteDialog.hide();}
+
+    @Override
+    public void show(Stage stage, Action action) {
+        showingComplete = true;
+        super.show(stage, action);
     }
 }
