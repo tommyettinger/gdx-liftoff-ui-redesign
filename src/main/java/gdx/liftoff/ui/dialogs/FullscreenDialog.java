@@ -67,26 +67,9 @@ public class FullscreenDialog extends PopTable {
         contentTable.add(table).growX();
         table.setTransform(true);
 
-        //empty cell for equal spacing with the restore button
-        table.add().expandX();
-
         //logo
         LogoWidget logoWidget = new LogoWidget();
         table.add(logoWidget).minHeight(Value.prefHeight);
-
-        //restore button
-        Button button = new Button(skin, "restore");
-        table.add(button).expandX().right().top();
-        addHandListener(button);
-        onChange(button, () -> {
-            pref.putBoolean("startMaximized", false);
-            pref.flush();
-
-            hide();
-            Main.restoreWindow();
-            root.fadeInTable();
-            overlayTable.fadeIn();
-        });
 
         contentTable.row();
         table = new Table();
