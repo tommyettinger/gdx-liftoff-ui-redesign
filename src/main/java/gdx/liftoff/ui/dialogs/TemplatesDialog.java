@@ -109,16 +109,16 @@ public class TemplatesDialog extends PopTable {
         addTooltip(label, Align.top, prop.getProperty("officialTemplatesTip"));
 
         //third-party templates
-        addTemplate(table, buttonGroup, ("ktxTemplate"), prop.getProperty("ktxTemplateTip"));
-        addTemplate(table, buttonGroup, ("lmlKiwiInputTemplate"), prop.getProperty("lmlKiwiInputTemplateTip"));
-        addTemplate(table, buttonGroup, ("lmlKiwiTemplate"), prop.getProperty("lmlKiwiTemplateTip"));
-        addTemplate(table, buttonGroup, ("lmlMvcBasicTemplate"), prop.getProperty("lmlMvcBasicTemplateTip"), true);
-        addTemplate(table, buttonGroup, ("lmlMvcBox2dTemplate"), prop.getProperty("lmlMvcBox2dTemplateTip"));
-        addTemplate(table, buttonGroup, ("lmlMvcVisTemplate"), prop.getProperty("lmlMvcVisTemplateTip"));
-        addTemplate(table, buttonGroup, ("lmlTemplate"), prop.getProperty("lmlTemplateTip"), true);
-        addTemplate(table, buttonGroup, ("noise4jTemplate"), prop.getProperty("noise4jTemplateTip"));
-        addTemplate(table, buttonGroup, ("visUiBasicTemplate"), prop.getProperty("visUiBasicTemplateTip"));
-        addTemplate(table, buttonGroup, ("visUiShowcaseTemplate"), prop.getProperty("visUiShowcaseTemplateTip"));
+        addTemplate(table, buttonGroup, ("ktxTemplate"), prop.getProperty("ktxTemplateTip"), false, "ktxActors", "ktxAi", "ktxApp", "ktxArtemis", "artemisOdb", "ktxAshley", "ktxAssets", "ktxAssetsAsync", "ktxAsync", "ktxBox2d", "ktxCollections", "ktxFreetype", "ktxFreetypeAsync", "ktxGraphics", "ktxI18n", "ktxInject", "ktxJson", "ktxLog", "ktxMath", "ktxPreferences", "ktxReflect", "ktxScene2d", "ktxStyle", "ktxTiled", "ktxVis", "ktxVisStyle", "visUi");
+        addTemplate(table, buttonGroup, ("lmlKiwiInputTemplate"), prop.getProperty("lmlKiwiInputTemplateTip"), false, "kiwi");
+        addTemplate(table, buttonGroup, ("lmlKiwiTemplate"), prop.getProperty("lmlKiwiTemplateTip"), false, "kiwi");
+        addTemplate(table, buttonGroup, ("lmlMvcBasicTemplate"), prop.getProperty("lmlMvcBasicTemplateTip"), true, "autumn", "autumnMvc");
+        addTemplate(table, buttonGroup, ("lmlMvcBox2dTemplate"), prop.getProperty("lmlMvcBox2dTemplateTip"), false, "autumn", "autumnMvc");
+        addTemplate(table, buttonGroup, ("lmlMvcVisTemplate"), prop.getProperty("lmlMvcVisTemplateTip"), false, "autumn", "autumnMvc", "visUi");
+        addTemplate(table, buttonGroup, ("lmlTemplate"), prop.getProperty("lmlTemplateTip"), true, "lml");
+        addTemplate(table, buttonGroup, ("noise4jTemplate"), prop.getProperty("noise4jTemplateTip"), false, "noise4j");
+        addTemplate(table, buttonGroup, ("visUiBasicTemplate"), prop.getProperty("visUiBasicTemplateTip"), false, "visUi");
+        addTemplate(table, buttonGroup, ("visUiShowcaseTemplate"), prop.getProperty("visUiShowcaseTemplateTip"), false, "visUi");
 
         //links
         scrollTable.row();
@@ -161,7 +161,7 @@ public class TemplatesDialog extends PopTable {
      * @param showGuiTip   When set to true, a tooltip is shown that signifies that the widget depends on the default
      *                     GUI Skin
      */
-    private void addTemplate(Table table, ButtonGroup<CheckBox> buttonGroup, String templateName, String description, boolean showGuiTip) {
+    private void addTemplate(Table table, ButtonGroup<CheckBox> buttonGroup, String templateName, String description, boolean showGuiTip, String... requiredThirdPartyLibs) {
         table.row();
         String localName = prop.getProperty(templateName);
         CheckBox checkBox = new CheckBox(localName, skin, "radio");
@@ -171,7 +171,15 @@ public class TemplatesDialog extends PopTable {
         buttonGroup.add(checkBox);
         addHandListener(checkBox);
         if (showGuiTip) addTooltip(checkBox, Align.top, prop.getProperty("templatesStar"));
-        onChange(checkBox, () -> UserData.template = templateName);
+        onChange(checkBox, () -> {
+            if (!checkBox.isChecked()) return;
+
+            UserData.template = templateName;
+            for (String requiredThirdPartyLib : requiredThirdPartyLibs) {
+                if (!UserData.thirdPartyLibs.contains(requiredThirdPartyLib))
+                    UserData.thirdPartyLibs.add(requiredThirdPartyLib);
+            }
+        });
 
         Label label = new Label(description, skin, "description");
         label.setEllipsis("...");
