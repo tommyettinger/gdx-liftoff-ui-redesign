@@ -78,7 +78,6 @@ public class RootTable extends Table {
     }
 
     public void transitionTable(int tableIndex, boolean rightToLeftTransition) {
-        System.out.println("tableIndex = " + tableIndex);
         LiftoffTable table = tables.get(this.tableIndex);
         table.finishAnimation();
         table.setTouchable(Touchable.disabled);
