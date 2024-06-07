@@ -20,7 +20,7 @@ import static gdx.liftoff.Main.*;
 
 /**
  * This table is the first table visible in the app. All the elements animate into view, but may be skipped by the user
- * clicking the interface. It contains the logo, subtitle, update version and link, project panel, button to create a
+ * clicking the interface. It contains the logo, subtitle, update version and link, project panel, a button to create
  * projects, and relevant links.
  */
 public class LandingTable extends LiftoffTable {
