@@ -55,7 +55,7 @@ public class TemplatesDialog extends PopTable {
 
     private void populate(Table contentTable) {
         contentTable.clearChildren();
-        contentTable.pad(SPACE_LARGE).padTop(SPACE_HUGE).padBottom(SPACE_HUGE);
+        contentTable.pad(SPACE_LARGE).padTop(SPACE_MEDIUM).padBottom(SPACE_MEDIUM);
 
         //title
         Label label = new Label(prop.getProperty("templates"), skin, "header");
@@ -119,6 +119,10 @@ public class TemplatesDialog extends PopTable {
         addTemplate(table, buttonGroup, ("noise4jTemplate"), prop.getProperty("noise4jTemplateTip"), false, "noise4j");
         addTemplate(table, buttonGroup, ("visUiBasicTemplate"), prop.getProperty("visUiBasicTemplateTip"), false, "visUi");
         addTemplate(table, buttonGroup, ("visUiShowcaseTemplate"), prop.getProperty("visUiShowcaseTemplateTip"), false, "visUi");
+
+        scrollTable.row();
+        label = new Label(prop.getProperty("templatesStar"), skin);
+        scrollTable.add(label).spaceTop(SPACE_MEDIUM);
 
         //links
         scrollTable.row();
