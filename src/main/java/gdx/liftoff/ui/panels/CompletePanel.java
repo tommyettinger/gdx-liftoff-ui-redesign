@@ -23,7 +23,7 @@ public class CompletePanel extends Table implements Panel {
         clearChildren();
         //logo
         defaults().space(SPACE_MEDIUM);
-        LogoWidget logo = new LogoWidget();
+        LogoWidget logo = new LogoWidget(true);
         add(logo);
 
         //title

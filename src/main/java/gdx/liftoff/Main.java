@@ -71,6 +71,7 @@ public class Main extends ApplicationAdapter {
     public static Image bgImage = new Image();
     public static boolean resizingWindow;
     public static boolean generatingProject;
+    public static String latestStableVersion;
     public static Properties prop;
     public static Preferences pref;
     private static final GlyphLayout layout = new GlyphLayout();
@@ -715,10 +716,12 @@ public class Main extends ApplicationAdapter {
         HttpResponseListener listener = new HttpResponseListener() {
             @Override
             public void handleHttpResponse(HttpResponse httpResponse) {
-                String latestStable = httpResponse.getResultAsString().trim();
-                if (!prop.getProperty("liftoffVersion").equals(latestStable)) {
+                latestStableVersion = httpResponse.getResultAsString().trim();
+                if (!prop.getProperty("liftoffVersion").equals(latestStableVersion)) {
                     Gdx.app.postRunnable(() -> {
+                        System.out.println("hit");
                         root.landingTable.animateUpdateLabel();
+                        if (fullscreenDialog != null) fullscreenDialog.updateVersion();
                     });
                 }
             }
