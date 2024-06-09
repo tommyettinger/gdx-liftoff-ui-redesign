@@ -255,7 +255,6 @@ public class Main extends ApplicationAdapter {
         stage.draw();
 
         resizingWindow = false;
-        if (Gdx.input.isKeyJustPressed(Keys.F5)) FullscreenDialog.show();
     }
 
     @Override
