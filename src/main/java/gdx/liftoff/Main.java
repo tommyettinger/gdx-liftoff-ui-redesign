@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpResponse;
 import com.badlogic.gdx.Net.HttpResponseListener;
@@ -126,10 +127,13 @@ public class Main extends ApplicationAdapter {
             @Override
             public void maximized(boolean isMax) {
                 if (isMax){
-                    if(root != null) {
-                        if (root.getCurrentTable() == root.completeTable) FullscreenCompleteDialog.show(false);
-                        else FullscreenDialog.show();
-                        root.fadeOutTable();
+                    if (root != null) {
+                        Gdx.app.postRunnable(() -> {
+                            root.getCurrentTable().finishAnimation();
+                            if (root.getCurrentTable() == root.completeTable) FullscreenCompleteDialog.show(false);
+                            else FullscreenDialog.show();
+                            root.fadeOutTable();
+                        });
                     }
                     if(overlayTable != null)
                         overlayTable.fadeOut();
@@ -247,6 +251,7 @@ public class Main extends ApplicationAdapter {
         stage.draw();
 
         resizingWindow = false;
+        if (Gdx.input.isKeyJustPressed(Keys.F5)) FullscreenDialog.show();
     }
 
     @Override
