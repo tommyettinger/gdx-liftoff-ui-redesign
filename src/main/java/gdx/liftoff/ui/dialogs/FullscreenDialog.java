@@ -71,11 +71,11 @@ public class FullscreenDialog extends PopTable {
 
         //logo
         LogoWidget logoWidget = new LogoWidget(false);
-        table.add(logoWidget).minHeight(Value.prefHeight);
+        table.add(logoWidget).minHeight(Value.prefHeight).spaceBottom(0);
 
         contentTable.row();
         table = new Table();
-        contentTable.add(table).growX();
+        contentTable.add(table).growX().spaceTop(0);
 
         //new project title
         table.defaults().space(SPACE_MEDIUM);
