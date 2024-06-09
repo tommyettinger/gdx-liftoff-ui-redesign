@@ -101,8 +101,8 @@ public class RootTable extends Table {
             targeting(newTable, Actions.moveBy(distance, 0)),
             //move the tables horizontally
             parallel(
-                targeting(table, Actions.moveBy(-distance, 0, 1f, exp5)),
-                targeting(newTable, Actions.moveBy(-distance, 0, 1f, exp5))
+                targeting(table, Actions.moveBy(-distance, 0, .7f, exp5)),
+                targeting(newTable, Actions.moveBy(-distance, 0, .7f, exp5))
             ),
             //remove the old table
             targeting(table, Actions.removeActor()),
