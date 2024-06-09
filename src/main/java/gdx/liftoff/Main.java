@@ -228,7 +228,10 @@ public class Main extends ApplicationAdapter {
 
         checkSetupVersion();
 
-        if (pref.getBoolean("startMaximized", false)) {
+        DisplayMode primaryDesktopMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+        int width = primaryDesktopMode.width;
+        int height = primaryDesktopMode.height;
+        if (!pref.contains("startMaximized") && width > 1920 && height > 1080 || pref.getBoolean("startMaximized", false)) {
             Main.maximizeWindow();
         }
     }
