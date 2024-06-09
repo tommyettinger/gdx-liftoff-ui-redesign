@@ -78,6 +78,8 @@ public class Main extends ApplicationAdapter {
     private static final GlyphLayout layout = new GlyphLayout();
     public static final int MIN_WINDOW_WIDTH = 400;
     public static final int MIN_WINDOW_HEIGHT = 410;
+    public static final float FULLSCREEN_MIN_WIDTH = 1500;
+    public static final float FULLSCREEN_MIN_HEIGHT = 880;
     public static final float ROOT_TABLE_PREF_WIDTH = 600;
     public static final float ROOT_TABLE_PREF_HEIGHT = 700;
 
@@ -127,7 +129,9 @@ public class Main extends ApplicationAdapter {
             @Override
             public void maximized(boolean isMax) {
                 if (isMax){
-                    if (root != null) {
+                    boolean fullscreenMode = Gdx.graphics.getWidth() > FULLSCREEN_MIN_WIDTH &&
+                        Gdx.graphics.getHeight() > FULLSCREEN_MIN_HEIGHT;
+                    if (fullscreenMode && root != null) {
                         Gdx.app.postRunnable(() -> {
                             root.getCurrentTable().finishAnimation();
                             if (root.getCurrentTable() == root.completeTable) FullscreenCompleteDialog.show(false);
@@ -135,7 +139,7 @@ public class Main extends ApplicationAdapter {
                             root.fadeOutTable();
                         });
                     }
-                    if(overlayTable != null)
+                    if(fullscreenMode && overlayTable != null)
                         overlayTable.fadeOut();
                 } else {
                     if (fullscreenDialog != null)
