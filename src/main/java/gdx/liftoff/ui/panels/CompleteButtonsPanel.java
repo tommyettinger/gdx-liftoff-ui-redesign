@@ -19,7 +19,7 @@ import static gdx.liftoff.Main.*;
 
 /**
  * The table to display the buttons to create a new project, open the project in IDEA, or exit the application after
- * project generation is complete. This panel is intended for use only in the normal and quick project workflows.
+ * project generation is complete.
  */
 public class CompleteButtonsPanel extends Table implements Panel {
     /**
@@ -52,6 +52,7 @@ public class CompleteButtonsPanel extends Table implements Panel {
             onChange(textButton, () -> {
                 popTable.hide();
                 FullscreenDialog.show();
+                root.showTableInstantly(root.landingTable);
             });
         }
 
