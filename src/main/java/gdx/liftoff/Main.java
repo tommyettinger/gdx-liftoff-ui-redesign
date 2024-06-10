@@ -78,6 +78,7 @@ public class Main extends ApplicationAdapter {
     private static final GlyphLayout layout = new GlyphLayout();
     public static final int MIN_WINDOW_WIDTH = 400;
     public static final int MIN_WINDOW_HEIGHT = 410;
+    public static final int WINDOW_BORDER = 50;
     public static final float FULLSCREEN_MIN_WIDTH = 1500;
     public static final float FULLSCREEN_MIN_HEIGHT = 880;
     public static final float ROOT_TABLE_PREF_WIDTH = 600;
@@ -108,9 +109,11 @@ public class Main extends ApplicationAdapter {
         config.setIdleFPS(8);
 
         DisplayMode primaryDesktopMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
-        int width = Math.max(MathUtils.round(primaryDesktopMode.width / 1920f * 800f), 800);
-        int height = Math.max(MathUtils.round(primaryDesktopMode.height / 1080f * 800f), 800);
-        config.setWindowedMode(width, height);
+        int monitorWidth = primaryDesktopMode.width;
+        int monitorHeight=  primaryDesktopMode.height;
+        int windowWidth = Math.max(MathUtils.round(monitorWidth / 1920f * 800f), 800);
+        int windowHeight = Math.max(MathUtils.round(monitorHeight / 1080f * 800f), 800);
+        config.setWindowedMode(Math.min(windowWidth, monitorWidth - WINDOW_BORDER * 2), Math.min(windowHeight, monitorHeight - WINDOW_BORDER * 2));
 
         config.setWindowSizeLimits(MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT, -1, -1);
         config.setWindowIcon("icons/libgdx128.png", "icons/libgdx64.png", "icons/libgdx32.png", "icons/libgdx16.png");
