@@ -2,6 +2,9 @@ package gdx.liftoff;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics.DisplayMode;
+import com.badlogic.gdx.Graphics.Monitor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Net.HttpResponse;
 import com.badlogic.gdx.Net.HttpResponseListener;
@@ -12,6 +15,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -68,11 +72,15 @@ public class Main extends ApplicationAdapter {
     public static Image bgImage = new Image();
     public static boolean resizingWindow;
     public static boolean generatingProject;
+    public static String latestStableVersion;
     public static Properties prop;
     public static Preferences pref;
     private static final GlyphLayout layout = new GlyphLayout();
     public static final int MIN_WINDOW_WIDTH = 400;
     public static final int MIN_WINDOW_HEIGHT = 410;
+    public static final int WINDOW_BORDER = 50;
+    public static final float FULLSCREEN_MIN_WIDTH = 1500;
+    public static final float FULLSCREEN_MIN_HEIGHT = 880;
     public static final float ROOT_TABLE_PREF_WIDTH = 600;
     public static final float ROOT_TABLE_PREF_HEIGHT = 700;
 
@@ -99,7 +107,14 @@ public class Main extends ApplicationAdapter {
         config.useVsync(true);
         config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         config.setIdleFPS(8);
-        config.setWindowedMode(800, 800);
+
+        DisplayMode primaryDesktopMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+        int monitorWidth = primaryDesktopMode.width;
+        int monitorHeight=  primaryDesktopMode.height;
+        int windowWidth = Math.max(MathUtils.round(monitorWidth / 1920f * 800f), 800);
+        int windowHeight = Math.max(MathUtils.round(monitorHeight / 1080f * 800f), 800);
+        config.setWindowedMode(Math.min(windowWidth, monitorWidth - WINDOW_BORDER * 2), Math.min(windowHeight, monitorHeight - WINDOW_BORDER * 2));
+
         config.setWindowSizeLimits(MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT, -1, -1);
         config.setWindowIcon("icons/libgdx128.png", "icons/libgdx64.png", "icons/libgdx32.png", "icons/libgdx16.png");
         config.setAutoIconify(true);
@@ -117,12 +132,17 @@ public class Main extends ApplicationAdapter {
             @Override
             public void maximized(boolean isMax) {
                 if (isMax){
-                    if(root != null) {
-                        if (root.getCurrentTable() == root.completeTable) FullscreenCompleteDialog.show(false);
-                        else FullscreenDialog.show();
-                        root.fadeOutTable();
+                    boolean fullscreenMode = Gdx.graphics.getWidth() > FULLSCREEN_MIN_WIDTH &&
+                        Gdx.graphics.getHeight() > FULLSCREEN_MIN_HEIGHT;
+                    if (fullscreenMode && root != null) {
+                        Gdx.app.postRunnable(() -> {
+                            root.getCurrentTable().finishAnimation();
+                            if (root.getCurrentTable() == root.completeTable) FullscreenCompleteDialog.show(false);
+                            else FullscreenDialog.show();
+                            root.fadeOutTable();
+                        });
                     }
-                    if(overlayTable != null)
+                    if(fullscreenMode && overlayTable != null)
                         overlayTable.fadeOut();
                 } else {
                     if (fullscreenDialog != null)
@@ -220,7 +240,10 @@ public class Main extends ApplicationAdapter {
 
         checkSetupVersion();
 
-        if (pref.getBoolean("startMaximized", false)) {
+        DisplayMode primaryDesktopMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+        int width = primaryDesktopMode.width;
+        int height = primaryDesktopMode.height;
+        if (!pref.contains("startMaximized") && width > 1920 && height > 1080 || pref.getBoolean("startMaximized", false)) {
             Main.maximizeWindow();
         }
     }
@@ -704,10 +727,12 @@ public class Main extends ApplicationAdapter {
         HttpResponseListener listener = new HttpResponseListener() {
             @Override
             public void handleHttpResponse(HttpResponse httpResponse) {
-                String latestStable = httpResponse.getResultAsString().trim();
-                if (!prop.getProperty("liftoffVersion").equals(latestStable)) {
+                latestStableVersion = httpResponse.getResultAsString().trim();
+                if (!prop.getProperty("liftoffVersion").equals(latestStableVersion)) {
                     Gdx.app.postRunnable(() -> {
+                        System.out.println("hit");
                         root.landingTable.animateUpdateLabel();
+                        if (fullscreenDialog != null) fullscreenDialog.updateVersion();
                     });
                 }
             }

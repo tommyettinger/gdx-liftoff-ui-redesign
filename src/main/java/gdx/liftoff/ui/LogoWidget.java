@@ -17,7 +17,7 @@ import static gdx.liftoff.Main.*;
  * spaces.
  */
 public class LogoWidget extends Table {
-    public LogoWidget() {
+    public LogoWidget(boolean showVersion) {
         CollapsibleGroup verticalCollapsibleGroup = new CollapsibleGroup(CollapseType.VERTICAL);
         add(verticalCollapsibleGroup).minHeight(0);
 
@@ -42,12 +42,14 @@ public class LogoWidget extends Table {
         container.padTop(SPACE_MEDIUM);
         verticalCollapsibleGroup.addActor(container);
 
-        //version
-        Label label = new Label("v" + prop.getProperty("liftoffVersion"), skin);
-        label.setEllipsis("...");
-        container.setActor(label);
+        if (showVersion) {
+            //version
+            Label label = new Label("v" + prop.getProperty("liftoffVersion"), skin);
+            label.setEllipsis("...");
+            container.setActor(label);
 
-        container = new Container<>();
-        verticalCollapsibleGroup.addActor(container);
+            container = new Container<>();
+            verticalCollapsibleGroup.addActor(container);
+        }
     }
 }
