@@ -145,20 +145,23 @@ public class Main extends ApplicationAdapter {
                     if(fullscreenMode && overlayTable != null)
                         overlayTable.fadeOut();
                 } else {
-                    if (fullscreenDialog != null)
+                    if (fullscreenDialog != null) {
                         fullscreenDialog.hide();
-                    if (fullscreenCompleteDialog != null) {
+                        root.getCurrentTable().populate();
+                        root.fadeInTable();
+                        overlayTable.fadeIn();
+                    } else if (fullscreenCompleteDialog != null) {
                         fullscreenCompleteDialog.hide();
                         if (root != null) {
                             root.fadeInTable();
-                            root.showTableInstantly(root.completeTable);
-                            root.completeTable.showCompletePanel();
+                            overlayTable.fadeIn();
+
+                            if (root.getCurrentTable() != root.completeTable) {
+                                root.showTableInstantly(root.completeTable);
+                                root.completeTable.showCompletePanel();
+                            }
                         }
                     }
-                    if (root != null)
-                        root.fadeInTable();
-                    if (overlayTable != null)
-                        overlayTable.fadeIn();
                 }
                 pref.putBoolean("startMaximized", isMax);
                 pref.flush();
