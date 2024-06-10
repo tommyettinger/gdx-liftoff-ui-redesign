@@ -730,7 +730,6 @@ public class Main extends ApplicationAdapter {
                 latestStableVersion = httpResponse.getResultAsString().trim();
                 if (!prop.getProperty("liftoffVersion").equals(latestStableVersion)) {
                     Gdx.app.postRunnable(() -> {
-                        System.out.println("hit");
                         root.landingTable.animateUpdateLabel();
                         if (fullscreenDialog != null) fullscreenDialog.updateVersion();
                     });
