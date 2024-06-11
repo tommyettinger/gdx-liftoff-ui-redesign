@@ -491,7 +491,7 @@ class Colorful : ThirdPartyExtension() {
 @Extension
 class Anim8 : ThirdPartyExtension() {
   override val id = "anim8"
-  override val defaultVersion = "0.4.2"
+  override val defaultVersion = "0.4.4"
   override val url = "https://github.com/tommyettinger/anim8-gdx"
   override val group = "com.github.tommyettinger"
   override val name = "anim8-gdx"
@@ -856,7 +856,7 @@ class Fury : ThirdPartyExtension() {
   override val name = "fury-core"
 
   override fun initiateDependencies(project: Project) {
-    addDependency(project, Core.ID, "org.furyio:fury-core")
+    addDependency(project, Core.ID, "org.apache.fury:fury-core")
   }
 }
 
