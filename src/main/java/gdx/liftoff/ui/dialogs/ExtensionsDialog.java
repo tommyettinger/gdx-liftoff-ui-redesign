@@ -139,8 +139,9 @@ public class ExtensionsDialog extends PopTable {
         table.row();
         String localName = prop.getProperty(extensionName);
         CheckBox checkBox = new CheckBox(localName, skin);
+        checkBox.left();
         checkBox.setChecked(UserData.extensions.contains(extensionName));
-        table.add(checkBox);
+        table.add(checkBox).fillX();
         addHandListener(checkBox);
         onChange(checkBox, () -> {
             if (checkBox.isChecked() && !UserData.extensions.contains(extensionName))
